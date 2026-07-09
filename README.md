@@ -23,3 +23,12 @@ $ curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
    $ uv run streamlit run streamlit_app.py
    ```
+
+### Deploying to Streamlit Community Cloud
+
+1. Push this repository to GitHub.
+2. On Streamlit Community Cloud (https://share.streamlit.io) create a new app and connect your GitHub repo.
+3. Set the main file to `streamlit_app.py` and the branch to `main` (or your chosen branch).
+4. Streamlit will install packages from `requirements.txt` and launch the app. Your live URL will be provided by Streamlit (for example: https://<your-app>.streamlit.app).
+
+If you want the app available at a custom subdomain like `dhammaranking.streamlit.app`, configure the app name/slug in Streamlit settings when you create the app.
