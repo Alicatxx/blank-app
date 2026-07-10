@@ -1962,29 +1962,33 @@ with tab7:
                 available_tiers = list(RANKS.keys())
                 current_tier = selected.get("tier", available_tiers[0])
                 tier_key = f"edit_team_tier_{selected['id']}"
+                tier_pending_key = f"edit_team_tier_pending_{selected['id']}"
+                if tier_pending_key not in st.session_state or st.session_state[tier_pending_key] not in available_tiers:
+                    st.session_state[tier_pending_key] = current_tier
                 tier_cols = st.columns([5, 1, 1])
                 with tier_cols[0]:
                     edit_tier = st.selectbox(
                         "Team Rank (Manual Override)",
                         available_tiers,
-                        index=available_tiers.index(current_tier) if current_tier in available_tiers else 0,
+                        index=available_tiers.index(st.session_state[tier_pending_key]) if st.session_state[tier_pending_key] in available_tiers else 0,
                         key=tier_key
                     )
+                    st.session_state[tier_pending_key] = edit_tier
                 with tier_cols[1]:
                     st.write("")
                     if st.button("Promote", key=f"promote_team_{selected['id']}"):
-                        active_tier = st.session_state.get(tier_key, current_tier)
+                        active_tier = st.session_state.get(tier_pending_key, current_tier)
                         active_index = available_tiers.index(active_tier) if active_tier in available_tiers else 0
                         if active_index < len(available_tiers) - 1:
-                            st.session_state[tier_key] = available_tiers[active_index + 1]
+                            st.session_state[tier_pending_key] = available_tiers[active_index + 1]
                         st.rerun()
                 with tier_cols[2]:
                     st.write("")
                     if st.button("Demote", key=f"demote_team_{selected['id']}"):
-                        active_tier = st.session_state.get(tier_key, current_tier)
+                        active_tier = st.session_state.get(tier_pending_key, current_tier)
                         active_index = available_tiers.index(active_tier) if active_tier in available_tiers else 0
                         if active_index > 0:
-                            st.session_state[tier_key] = available_tiers[active_index - 1]
+                            st.session_state[tier_pending_key] = available_tiers[active_index - 1]
                         st.rerun()
                 edit_points = st.number_input("Team Points", value=selected["points"], step=1, key=f"edit_team_points_{selected['id']}")
                 player_cols = st.columns([2, 1, 1])
