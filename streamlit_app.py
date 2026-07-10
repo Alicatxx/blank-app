@@ -1175,12 +1175,14 @@ def update_team_points(team_id, delta):
     return True
 
 
-def update_team(team_id, name=None, points=None, players=None, player_mechs=None, player_callsigns=None, npc_mechs=None):
+def update_team(team_id, name=None, tier=None, points=None, players=None, player_mechs=None, player_callsigns=None, npc_mechs=None):
     team = next((t for t in st.session_state.teams if t.get("id") == team_id), None)
     if not team:
         return False
     if name is not None:
         team["name"] = name.strip()
+    if tier is not None:
+        team["tier"] = tier
     if points is not None:
         team["points"] = int(points)
     if players is not None:
@@ -1957,6 +1959,33 @@ with tab7:
                 st.markdown("---")
                 st.subheader("Edit Team")
                 edit_name = st.text_input("Team Name", selected["name"], key=f"edit_team_name_{selected['id']}")
+                available_tiers = list(RANKS.keys())
+                current_tier = selected.get("tier", available_tiers[0])
+                tier_key = f"edit_team_tier_{selected['id']}"
+                tier_cols = st.columns([5, 1, 1])
+                with tier_cols[0]:
+                    edit_tier = st.selectbox(
+                        "Team Rank (Manual Override)",
+                        available_tiers,
+                        index=available_tiers.index(current_tier) if current_tier in available_tiers else 0,
+                        key=tier_key
+                    )
+                with tier_cols[1]:
+                    st.write("")
+                    if st.button("Promote", key=f"promote_team_{selected['id']}"):
+                        active_tier = st.session_state.get(tier_key, current_tier)
+                        active_index = available_tiers.index(active_tier) if active_tier in available_tiers else 0
+                        if active_index < len(available_tiers) - 1:
+                            st.session_state[tier_key] = available_tiers[active_index + 1]
+                        st.rerun()
+                with tier_cols[2]:
+                    st.write("")
+                    if st.button("Demote", key=f"demote_team_{selected['id']}"):
+                        active_tier = st.session_state.get(tier_key, current_tier)
+                        active_index = available_tiers.index(active_tier) if active_tier in available_tiers else 0
+                        if active_index > 0:
+                            st.session_state[tier_key] = available_tiers[active_index - 1]
+                        st.rerun()
                 edit_points = st.number_input("Team Points", value=selected["points"], step=1, key=f"edit_team_points_{selected['id']}")
                 player_cols = st.columns([2, 1, 1])
                 edited_players = []
@@ -2002,6 +2031,7 @@ with tab7:
                         update_team(
                             selected["id"],
                             name=edit_name.strip(),
+                            tier=edit_tier,
                             points=edit_points,
                             players=edited_players,
                             player_mechs=edited_mechs,
