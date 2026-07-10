@@ -1,0 +1,355 @@
+[
+  {
+    "id": "team_1",
+    "name": "Suvara Six",
+    "tier": "Samyak-Dristi",
+    "players": [
+      "Nancy Nekoichi",
+      "Ld Victoria Vespiria Silverstream",
+      "Zen",
+      "Dr Melissa Tuluxo",
+      "Elsie Ranfaing",
+      "Ld Evelyn Blackwood"
+    ],
+    "points": 0,
+    "created": "2026-07-09T13:19:39.838596",
+    "wins": 0,
+    "losses": 0,
+    "player_mechs": {
+      "Nancy Nekoichi": "Atlas",
+      "Ld Victoria Vespiria Silverstream": "Atlas",
+      "Zen": "Atlas",
+      "Dr Melissa Tuluxo": "Atlas",
+      "Elsie Ranfaing": "Atlas",
+      "Ld Evelyn Blackwood": "Atlas"
+    },
+    "player_callsigns": {
+      "Nancy Nekoichi": "Neko",
+      "Ld Victoria Vespiria Silverstream": "Candevata",
+      "Zen": "Canis",
+      "Dr Melissa Tuluxo": "Doc",
+      "Elsie Ranfaing": "Box Cars",
+      "Ld Evelyn Blackwood": "Poppet"
+    }
+  },
+  {
+    "id": "team_3",
+    "name": "Rust Jackels",
+    "tier": "Samyak-Samkalpa",
+    "points": 0,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-09T16:12:48.476983",
+    "players": [
+      "Gigi Kisses",
+      "Jaya Kay",
+      "Juno Kess",
+      "Aaron Varrik",
+      "Selene Ardyn",
+      "Tarin Rhymer"
+    ],
+    "player_mechs": {
+      "Gigi Kisses": "Atlas",
+      "Jaya Kay": "Atlas",
+      "Juno Kess": "Atlas",
+      "Aaron Varrik": "Atlas",
+      "Selene Ardyn": "Atlas",
+      "Tarin Rhymer": "Atlas"
+    },
+    "avatar_url": "",
+    "player_callsigns": {
+      "Gigi Kisses": "PulseGrid",
+      "Jaya Kay": "BoomBaby",
+      "Juno Kess": "Redstep",
+      "Aaron Varrik": "Rattlejacket",
+      "Selene Ardyn": "Sable",
+      "Tarin Rhymer": "StaticBolt"
+    }
+  },
+  {
+    "id": "team_4",
+    "name": "dummy team 2",
+    "tier": "Samyak-Samkalpa",
+    "points": 1000,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-09T16:13:00.851121",
+    "players": [
+      "1",
+      "2",
+      "3",
+      "5",
+      "4",
+      "6"
+    ],
+    "player_mechs": {
+      "1": "Atlas",
+      "2": "Atlas",
+      "3": "Atlas",
+      "5": "Atlas",
+      "4": "Atlas",
+      "6": "Atlas"
+    },
+    "avatar_url": ""
+  },
+  {
+    "id": "team_5",
+    "name": "dummy team 3",
+    "tier": "Samyak-Dristi",
+    "points": 1000,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-09T16:13:07.920397",
+    "players": [
+      "1",
+      "2",
+      "3",
+      "5",
+      "4",
+      "6"
+    ],
+    "player_mechs": {
+      "1": "Atlas",
+      "2": "Atlas",
+      "3": "Atlas",
+      "5": "Atlas",
+      "4": "Atlas",
+      "6": "Atlas"
+    },
+    "avatar_url": ""
+  },
+  {
+    "id": "team_6",
+    "name": "dummy team 4",
+    "tier": "Samyak-Dristi",
+    "points": 1000,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-09T16:13:11.856744",
+    "players": [
+      "1",
+      "2",
+      "3",
+      "5",
+      "4",
+      "6"
+    ],
+    "player_mechs": {
+      "1": "Atlas",
+      "2": "Atlas",
+      "3": "Atlas",
+      "5": "Atlas",
+      "4": "Atlas",
+      "6": "Atlas"
+    },
+    "avatar_url": ""
+  },
+  {
+    "id": "team_7",
+    "name": "Pale Drifters",
+    "tier": "Samyak-Samkalpa",
+    "points": -1,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-09T16:17:05.833635",
+    "players": [
+      "Marik Remaire",
+      "Seri Ashley",
+      "Meara Tryna",
+      "John Lancer",
+      "Tyra McArla",
+      "Claud Pithoys"
+    ],
+    "player_mechs": {
+      "Marik Remaire": "Atlas",
+      "Seri Ashley": "Atlas",
+      "Meara Tryna": "Atlas",
+      "John Lancer": "Atlas",
+      "Tyra McArla": "Atlas",
+      "Claud Pithoys": "Atlas"
+    },
+    "avatar_url": "",
+    "player_callsigns": {
+      "Marik Remaire": "Revolver",
+      "Seri Ashley": "GlitzMek",
+      "Meara Tryna": "DreadMuse",
+      "John Lancer": "PingLord",
+      "Tyra McArla": "FrenzyPop",
+      "Claud Pithoys": "Heretic"
+    },
+    "npc_mechs": []
+  },
+  {
+    "id": "team_8",
+    "name": "Blue Ember Union",
+    "tier": "Samyak-Dristi",
+    "points": 0,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-10T07:49:42.948705",
+    "players": [
+      "Kade Marron",
+      "Rhea Solari",
+      "Riven Verren",
+      "Marlow Pell",
+      "Tovin Arclen",
+      "Sable Lunehart"
+    ],
+    "player_mechs": {
+      "Kade Marron": "Atlas",
+      "Rhea Solari": "Atlas",
+      "Riven Verren": "Atlas",
+      "Marlow Pell": "Atlas",
+      "Tovin Arclen": "Atlas",
+      "Sable Lunehart": "Atlas"
+    },
+    "player_callsigns": {
+      "Kade Marron": "Swipe Right",
+      "Rhea Solari": "Balance Due",
+      "Riven Verren": "Tap to Pay",
+      "Marlow Pell": "CreditLimit",
+      "Tovin Arclen": "Late Fee",
+      "Sable Lunehart": "CashBash"
+    },
+    "avatar_url": ""
+  },
+  {
+    "id": "team_9",
+    "name": "Gutterlight Saints",
+    "tier": "Samyak-Dristi",
+    "points": 0,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-10T07:51:40.812592",
+    "players": [
+      "Lio Varrin",
+      "Tessa Marn",
+      "Orin Pellos",
+      "Vexa Rhyll",
+      "Joren Halvek",
+      "Nia Solenne"
+    ],
+    "player_mechs": {
+      "Lio Varrin": "Atlas",
+      "Tessa Marn": "Atlas",
+      "Orin Pellos": "Atlas",
+      "Vexa Rhyll": "Atlas",
+      "Joren Halvek": "Atlas",
+      "Nia Solenne": "Atlas"
+    },
+    "player_callsigns": {
+      "Lio Varrin": "LuckyBreak",
+      "Tessa Marn": "Short Stack",
+      "Orin Pellos": "ColdDice",
+      "Vexa Rhyll": "Double Down",
+      "Joren Halvek": "BadBeat",
+      "Nia Solenne": "Jackpot"
+    },
+    "avatar_url": ""
+  },
+  {
+    "id": "team_10",
+    "name": "Iron Orchid",
+    "tier": "Samyak-Dristi",
+    "points": 0,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-10T08:39:57.480754",
+    "players": [
+      "Colt Arden",
+      "Risa Vant",
+      "Dane Korrin",
+      "Veyra Esten",
+      "Kerr Tellen",
+      "Orren Vale"
+    ],
+    "player_mechs": {
+      "Colt Arden": "Atlas",
+      "Risa Vant": "Atlas",
+      "Dane Korrin": "Atlas",
+      "Veyra Esten": "Atlas",
+      "Kerr Tellen": "Atlas",
+      "Orren Vale": "Atlas"
+    },
+    "player_callsigns": {
+      "Colt Arden": "Thresh",
+      "Risa Vant": "Harrow",
+      "Dane Korrin": "Ironseed",
+      "Veyra Esten": "ColdFurrow",
+      "Kerr Tellen": "Grainlock",
+      "Orren Vale": "Backscatter"
+    },
+    "npc_mechs": [],
+    "avatar_url": ""
+  },
+  {
+    "id": "team_11",
+    "name": "Neon Wasp Syndicate",
+    "tier": "Samyak-Dristi",
+    "points": 0,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-10T08:41:28.720572",
+    "players": [
+      "Vex Halden",
+      "Kira Mino",
+      "Dante Serin",
+      "Nova Yessir",
+      "Rho Talvek",
+      "Serae Dray"
+    ],
+    "player_mechs": {
+      "Vex Halden": "Atlas",
+      "Kira Mino": "Atlas",
+      "Dante Serin": "Atlas",
+      "Nova Yessir": "Atlas",
+      "Rho Talvek": "Atlas",
+      "Serae Dray": "Atlas"
+    },
+    "player_callsigns": {
+      "Vex Halden": "Overclock",
+      "Kira Mino": "Lag Switch",
+      "Dante Serin": "TiltLock",
+      "Nova Yessir": "ClipFarm",
+      "Rho Talvek": "Keybind",
+      "Serae Dray": "AFKAngel"
+    },
+    "npc_mechs": [],
+    "avatar_url": ""
+  },
+  {
+    "id": "team_12",
+    "name": "Pattern Breakers",
+    "tier": "Samyak-Dristi",
+    "points": 0,
+    "wins": 0,
+    "losses": 0,
+    "created": "2026-07-10T08:42:46.905303",
+    "players": [
+      "Venn Roul",
+      "Irie solenne",
+      "Vale Varrin",
+      "Lune Kess",
+      "Bran Dreyl",
+      "Nyra Pell"
+    ],
+    "player_mechs": {
+      "Venn Roul": "Atlas",
+      "Irie solenne": "Atlas",
+      "Vale Varrin": "Atlas",
+      "Lune Kess": "Atlas",
+      "Bran Dreyl": "Atlas",
+      "Nyra Pell": "Atlas"
+    },
+    "player_callsigns": {
+      "Venn Roul": "Crossfade",
+      "Irie solenne": "Threadkill",
+      "Vale Varrin": "Backstitch",
+      "Lune Kess": "DropNeedle",
+      "Bran Dreyl": "Hemlock",
+      "Nyra Pell": "Ghostweft"
+    },
+    "npc_mechs": [],
+    "avatar_url": ""
+  }
+]
