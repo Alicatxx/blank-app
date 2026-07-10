@@ -16,12 +16,12 @@
     "wins": 0,
     "losses": 0,
     "player_mechs": {
-      "Nancy Nekoichi": "Atlas",
-      "Ld Victoria Vespiria Silverstream": "Atlas",
-      "Zen": "Atlas",
-      "Dr Melissa Tuluxo": "Atlas",
-      "Elsie Ranfaing": "Atlas",
-      "Ld Evelyn Blackwood": "Atlas"
+      "Nancy Nekoichi": "HA Sunzi",
+      "Ld Victoria Vespiria Silverstream": "HA Tokugawa",
+      "Zen": "ISP-N Vlad",
+      "Dr Melissa Tuluxo": "ISP-N Kidd",
+      "Elsie Ranfaing": "SSC Atlas",
+      "Ld Evelyn Blackwood": "SSC Swallowtail"
     },
     "player_callsigns": {
       "Nancy Nekoichi": "Neko",
@@ -30,7 +30,8 @@
       "Dr Melissa Tuluxo": "Doc",
       "Elsie Ranfaing": "Box Cars",
       "Ld Evelyn Blackwood": "Poppet"
-    }
+    },
+    "npc_mechs": []
   },
   {
     "id": "team_3",
@@ -49,12 +50,12 @@
       "Tarin Rhymer"
     ],
     "player_mechs": {
-      "Gigi Kisses": "Atlas",
-      "Jaya Kay": "Atlas",
-      "Juno Kess": "Atlas",
-      "Aaron Varrik": "Atlas",
-      "Selene Ardyn": "Atlas",
-      "Tarin Rhymer": "Atlas"
+      "Gigi Kisses": "Archer",
+      "Jaya Kay": "Archer",
+      "Juno Kess": "Archer",
+      "Aaron Varrik": "Archer",
+      "Selene Ardyn": "Archer",
+      "Tarin Rhymer": "Archer"
     },
     "avatar_url": "",
     "player_callsigns": {
@@ -83,12 +84,12 @@
       "6"
     ],
     "player_mechs": {
-      "1": "Atlas",
-      "2": "Atlas",
-      "3": "Atlas",
-      "5": "Atlas",
-      "4": "Atlas",
-      "6": "Atlas"
+      "1": "Archer",
+      "2": "Archer",
+      "3": "Archer",
+      "5": "Archer",
+      "4": "Archer",
+      "6": "Archer"
     },
     "avatar_url": ""
   },
@@ -109,12 +110,12 @@
       "6"
     ],
     "player_mechs": {
-      "1": "Atlas",
-      "2": "Atlas",
-      "3": "Atlas",
-      "5": "Atlas",
-      "4": "Atlas",
-      "6": "Atlas"
+      "1": "Archer",
+      "2": "Archer",
+      "3": "Archer",
+      "5": "Archer",
+      "4": "Archer",
+      "6": "Archer"
     },
     "avatar_url": ""
   },
@@ -135,12 +136,12 @@
       "6"
     ],
     "player_mechs": {
-      "1": "Atlas",
-      "2": "Atlas",
-      "3": "Atlas",
-      "5": "Atlas",
-      "4": "Atlas",
-      "6": "Atlas"
+      "1": "Archer",
+      "2": "Archer",
+      "3": "Archer",
+      "5": "Archer",
+      "4": "Archer",
+      "6": "Archer"
     },
     "avatar_url": ""
   },
@@ -161,12 +162,12 @@
       "Claud Pithoys"
     ],
     "player_mechs": {
-      "Marik Remaire": "Atlas",
-      "Seri Ashley": "Atlas",
-      "Meara Tryna": "Atlas",
-      "John Lancer": "Atlas",
-      "Tyra McArla": "Atlas",
-      "Claud Pithoys": "Atlas"
+      "Marik Remaire": "Archer",
+      "Seri Ashley": "Archer",
+      "Meara Tryna": "Archer",
+      "John Lancer": "Archer",
+      "Tyra McArla": "Archer",
+      "Claud Pithoys": "Archer"
     },
     "avatar_url": "",
     "player_callsigns": {
@@ -196,12 +197,12 @@
       "Sable Lunehart"
     ],
     "player_mechs": {
-      "Kade Marron": "Atlas",
-      "Rhea Solari": "Atlas",
-      "Riven Verren": "Atlas",
-      "Marlow Pell": "Atlas",
-      "Tovin Arclen": "Atlas",
-      "Sable Lunehart": "Atlas"
+      "Kade Marron": "Archer",
+      "Rhea Solari": "Archer",
+      "Riven Verren": "Archer",
+      "Marlow Pell": "Archer",
+      "Tovin Arclen": "Archer",
+      "Sable Lunehart": "Archer"
     },
     "player_callsigns": {
       "Kade Marron": "Swipe Right",
@@ -230,12 +231,12 @@
       "Nia Solenne"
     ],
     "player_mechs": {
-      "Lio Varrin": "Atlas",
-      "Tessa Marn": "Atlas",
-      "Orin Pellos": "Atlas",
-      "Vexa Rhyll": "Atlas",
-      "Joren Halvek": "Atlas",
-      "Nia Solenne": "Atlas"
+      "Lio Varrin": "Archer",
+      "Tessa Marn": "Archer",
+      "Orin Pellos": "Archer",
+      "Vexa Rhyll": "Archer",
+      "Joren Halvek": "Archer",
+      "Nia Solenne": "Archer"
     },
     "player_callsigns": {
       "Lio Varrin": "LuckyBreak",
@@ -264,12 +265,12 @@
       "Orren Vale"
     ],
     "player_mechs": {
-      "Colt Arden": "Atlas",
-      "Risa Vant": "Atlas",
-      "Dane Korrin": "Atlas",
-      "Veyra Esten": "Atlas",
-      "Kerr Tellen": "Atlas",
-      "Orren Vale": "Atlas"
+      "Colt Arden": "Archer",
+      "Risa Vant": "Archer",
+      "Dane Korrin": "Archer",
+      "Veyra Esten": "Archer",
+      "Kerr Tellen": "Archer",
+      "Orren Vale": "Archer"
     },
     "player_callsigns": {
       "Colt Arden": "Thresh",
@@ -299,12 +300,12 @@
       "Serae Dray"
     ],
     "player_mechs": {
-      "Vex Halden": "Atlas",
-      "Kira Mino": "Atlas",
-      "Dante Serin": "Atlas",
-      "Nova Yessir": "Atlas",
-      "Rho Talvek": "Atlas",
-      "Serae Dray": "Atlas"
+      "Vex Halden": "Archer",
+      "Kira Mino": "Archer",
+      "Dante Serin": "Archer",
+      "Nova Yessir": "Archer",
+      "Rho Talvek": "Archer",
+      "Serae Dray": "Archer"
     },
     "player_callsigns": {
       "Vex Halden": "Overclock",
@@ -334,12 +335,12 @@
       "Nyra Pell"
     ],
     "player_mechs": {
-      "Venn Roul": "Atlas",
-      "Irie solenne": "Atlas",
-      "Vale Varrin": "Atlas",
-      "Lune Kess": "Atlas",
-      "Bran Dreyl": "Atlas",
-      "Nyra Pell": "Atlas"
+      "Venn Roul": "Archer",
+      "Irie solenne": "Archer",
+      "Vale Varrin": "Archer",
+      "Lune Kess": "Archer",
+      "Bran Dreyl": "Archer",
+      "Nyra Pell": "Archer"
     },
     "player_callsigns": {
       "Venn Roul": "Crossfade",

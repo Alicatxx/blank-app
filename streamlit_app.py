@@ -183,11 +183,57 @@ RANKS = {
 }
 
 MECHS = [
-    "Atlas", "Behemoth", "Bishop", "Dawneye", "Dominator", "Kestrel", "Maverick", "Oklop",
-    "Paladin", "Phantom", "Rampart", "Sabre", "Spectre", "Stalker", "Tempest", "Watcher",
-    "Weaver", "Nova", "Rhino", "Kaiju", "Maestro", "Piper", "Purifier", "Titan", "Vortex",
-    "Ironclad", "Shadow", "Phoenix", "Aegis", "Astraeus"
+    "Archer", "Bombard", "Rainmaker", "Seeder", "Sniper", "Hive", "Information", "Medusa", "Mirage", "Specter", "Witch", "Aegis", "Barricade", "Bastion", "Goliath", "Ace", "Assault", "Berserker", "Breacher", "Cataphract", "Demolisher", "Hornet", "Ronin", "Engineer", "Operator", "Priest", "Scourer", "Scout", "Support", "GMS Everest", "GMS Sagarmatha", "GMS Chomolungma", "ISP-N Blackbear", "ISP-N Caliban", "ISP-N Drake", "ISP-N Nelson", "ISP-N Raleigh", "ISP-N Tortuga", "ISP-N Vlad", "ISP-N Zheng", "ISP-N Storebeker", "ISP-N Empakaai", "ISP-N Kidd", "SSC Atlas", "SSC Dusk Wing", "SSC Metalmarl", "SSC Mourning Cloak", "SSC Swallowtail", "SSC Monarch", "SSC Viceroy", "SSC Emperor", "SSC Calendula",
+    "HO Balor", "HO Goblin", "HO Gorgon", "HO Hydra", "HO Manticore", "HO Minotaur", "HO Pegasus", "HO Kobold", "HO Lich", "HA Gilgamesh", "HA Barbarossa", "HA Genghis", "HA Napoleon", "HA Saladin", "HA Sherman", "HA Tokugawa", "HA Sunzi",
 ]
+
+LEGACY_MECH_REMAP = {
+    "Atlas": "SSC Atlas",
+    "Behemoth": "HA Barbarossa",
+    "Bishop": "HO Goblin",
+    "Dawneye": "Engineer",
+    "Dominator": "Assault",
+    "Kestrel": "Hornet",
+    "Maverick": "Ace",
+    "Oklop": "Bastion",
+    "Paladin": "HA Saladin",
+    "Phantom": "Mirage",
+    "Rampart": "Barricade",
+    "Sabre": "Ronin",
+    "Spectre": "Specter",
+    "Stalker": "Scout",
+    "Tempest": "ISP-N Raleigh",
+    "Watcher": "Information",
+    "Weaver": "Seeder",
+    "Nova": "SSC Monarch",
+    "Rhino": "Cataphract",
+    "Kaiju": "HO Balor",
+    "Maestro": "SSC Emperor",
+    "Piper": "SSC Dusk Wing",
+    "Purifier": "HA Tokugawa",
+    "Titan": "Goliath",
+    "Vortex": "HO Hydra",
+    "Ironclad": "Bastion",
+    "Shadow": "Mirage",
+    "Phoenix": "HA Gilgamesh",
+    "Astraeus": "SSC Viceroy",
+}
+
+
+def canonicalize_mech_name(mech_name):
+    if not mech_name:
+        return ""
+
+    normalized = str(mech_name).strip()
+    if normalized in MECHS:
+        return normalized
+
+    remapped = LEGACY_MECH_REMAP.get(normalized, "")
+    if remapped in MECHS:
+        return remapped
+
+    return ""
+
 MAPS = ["Steel Valley", "Crimson Canyon", "Azure Wastes", "Neon City", "Volcanic Core"]
 SEASON_PROMOTION_SPOTS = 3
 
@@ -201,7 +247,7 @@ DEFAULT_TEAMS = [
         "losses": 5,
         "created": datetime.now().isoformat(),
         "players": ["Shiva (Ha-Rin)","Yamajara (Kanae tobik)","Skanda (Arik Madi)","Indra (Ayet)"],
-        "player_mechs": {"Astra": "Atlas", "Blaze": "Behemoth", "Cipher": "Bishop", "Dynamo": "Dawneye", "Echo": "Dominator", "Falcon": "Kestrel"}
+        "player_mechs": {"Astra": "SSC Atlas", "Blaze": "HA Barbarossa", "Cipher": "HO Goblin", "Dynamo": "Engineer", "Echo": "Assault", "Falcon": "Hornet"}
     },
     {
         "id": "team_2",
@@ -212,7 +258,7 @@ DEFAULT_TEAMS = [
         "losses": 7,
         "created": datetime.now().isoformat(),
         "players": ["Nova", "Rogue", "Sable", "Talon", "Viper", "Warden"],
-        "player_mechs": {"Nova": "Nova", "Rogue": "Rampart", "Sable": "Sabre", "Talon": "Spectre", "Viper": "Stalker", "Warden": "Tempest"}
+        "player_mechs": {"Nova": "SSC Monarch", "Rogue": "Barricade", "Sable": "Ronin", "Talon": "Specter", "Viper": "Scout", "Warden": "ISP-N Raleigh"}
     },
     {
         "id": "team_3",
@@ -223,7 +269,7 @@ DEFAULT_TEAMS = [
         "losses": 6,
         "created": datetime.now().isoformat(),
         "players": ["Hex", "Ion", "Jinx", "Kestrel", "Lumina", "Maverick"],
-        "player_mechs": {"Hex": "Watcher", "Ion": "Weaver", "Jinx": "Rhino", "Kestrel": "Kestrel", "Lumina": "Maestro", "Maverick": "Maverick"}
+        "player_mechs": {"Hex": "Witch", "Ion": "Seeder", "Jinx": "Berserker", "Kestrel": "Hornet", "Lumina": "SSC Emperor", "Maverick": "Ace"}
     },
     {
         "id": "team_4",
@@ -234,7 +280,7 @@ DEFAULT_TEAMS = [
         "losses": 6,
         "created": datetime.now().isoformat(),
         "players": ["Hex", "Ion", "Jinx", "Kestrel", "Lumina", "Maverick"],
-        "player_mechs": {"Hex": "Watcher", "Ion": "Weaver", "Jinx": "Rhino", "Kestrel": "Kestrel", "Lumina": "Maestro", "Maverick": "Maverick"}
+        "player_mechs": {"Hex": "Witch", "Ion": "Seeder", "Jinx": "Berserker", "Kestrel": "Hornet", "Lumina": "SSC Emperor", "Maverick": "Ace"}
     }
 ]
 
@@ -560,7 +606,7 @@ def parse_obsidian_markdown(text):
                 parsed_name = normalize_player_name(name)
                 current["players"].append(parsed_name)
                 if mech:
-                    current["player_mechs"][parsed_name] = mech
+                    current["player_mechs"][parsed_name] = canonicalize_mech_name(mech) or mech
     if current and current["players"]:
         teams.append(current)
     return teams
@@ -575,14 +621,14 @@ def parse_team_json_data(data):
                     teams.append({
                         "name": item.get("name", "Imported Team"),
                         "players": [normalize_player_name(p) for p in item.get("players", []) if p],
-                        "player_mechs": {normalize_player_name(p): m for p, m in item.get("player_mechs", {}).items() if p} if isinstance(item.get("player_mechs"), dict) else {},
+                        "player_mechs": {normalize_player_name(p): canonicalize_mech_name(m) or m for p, m in item.get("player_mechs", {}).items() if p} if isinstance(item.get("player_mechs"), dict) else {},
                         "points": int(item.get("points", 0)) if item.get("points") else 0
                     })
         elif "players" in data and isinstance(data["players"], list):
             teams.append({
                 "name": data.get("name", "Imported Team"),
                 "players": [normalize_player_name(p) for p in data["players"] if p],
-                "player_mechs": {normalize_player_name(p): m for p, m in data.get("player_mechs", {}).items() if p} if isinstance(data.get("player_mechs"), dict) else {},
+                "player_mechs": {normalize_player_name(p): canonicalize_mech_name(m) or m for p, m in data.get("player_mechs", {}).items() if p} if isinstance(data.get("player_mechs"), dict) else {},
                 "points": int(data.get("points", 0)) if data.get("points") else 0
             })
         elif any(k in data for k in ("name", "pilot", "callsign", "character")):
@@ -592,7 +638,7 @@ def parse_team_json_data(data):
             teams.append({
                 "name": team_name,
                 "players": [name],
-                "player_mechs": {name: mech} if mech else {},
+                "player_mechs": {name: canonicalize_mech_name(mech) or mech} if mech else {},
                 "points": int(data.get("points", 0)) if data.get("points") else 0
             })
     elif isinstance(data, list):
@@ -606,7 +652,7 @@ def parse_team_json_data(data):
                     grouped[team_name] = {"name": team_name, "players": [], "player_mechs": {}, "points": 0}
                 grouped[team_name]["players"].append(name)
                 if mech:
-                    grouped[team_name]["player_mechs"][name] = mech
+                    grouped[team_name]["player_mechs"][name] = canonicalize_mech_name(mech) or mech
             teams.extend(grouped.values())
         else:
             players = []
@@ -617,7 +663,7 @@ def parse_team_json_data(data):
                     mech = item.get("mech") or item.get("frame") or item.get("chassis")
                     players.append(name)
                     if mech:
-                        player_mechs[name] = mech
+                        player_mechs[name] = canonicalize_mech_name(mech) or mech
             if players:
                 teams.append({"name": "Imported Team", "players": players, "player_mechs": player_mechs, "points": 0})
     return teams
@@ -813,7 +859,7 @@ def generate_player_profile(username, team=None, points=0, mech=None, call_sign=
     wins = max(5, int((rating + rng.randint(0, 200)) / 18))
     losses = max(1, int((4200 - rating + rng.randint(0, 150)) / 30))
     winrate_val = min(98, max(40, int(50 + (rating - 1500) / 40 + rng.randint(-5, 5))))
-    selected_mech = mech if mech in MECHS else rng.choice(MECHS)
+    selected_mech = canonicalize_mech_name(mech) or rng.choice(MECHS)
 
     return {
         "Username": username,
@@ -1190,9 +1236,12 @@ def update_team(team_id, name=None, tier=None, points=None, players=None, player
         current_callsigns = team.get("player_callsigns", {})
         team["players"] = players
         if player_mechs is None:
-            team["player_mechs"] = {p: current_mechs.get(p, MECHS[0]) for p in players}
+            team["player_mechs"] = {p: canonicalize_mech_name(current_mechs.get(p, MECHS[0])) or MECHS[0] for p in players}
         else:
-            team["player_mechs"] = {p: player_mechs.get(p, current_mechs.get(p, MECHS[0])) for p in players}
+            team["player_mechs"] = {
+                p: canonicalize_mech_name(player_mechs.get(p, current_mechs.get(p, MECHS[0]))) or MECHS[0]
+                for p in players
+            }
         if player_callsigns is None:
             team["player_callsigns"] = {p: current_callsigns.get(p, "") for p in players}
         else:
@@ -1200,7 +1249,10 @@ def update_team(team_id, name=None, tier=None, points=None, players=None, player
     else:
         if player_mechs is not None:
             current_mechs = team.get("player_mechs", {})
-            team["player_mechs"] = {p: player_mechs.get(p, current_mechs.get(p, MECHS[0])) for p in team.get("players", [])}
+            team["player_mechs"] = {
+                p: canonicalize_mech_name(player_mechs.get(p, current_mechs.get(p, MECHS[0]))) or MECHS[0]
+                for p in team.get("players", [])
+            }
         if player_callsigns is not None:
             current_callsigns = team.get("player_callsigns", {})
             team["player_callsigns"] = {p: player_callsigns.get(p, current_callsigns.get(p, "")) for p in team.get("players", [])}
@@ -1293,7 +1345,7 @@ def apply_match_result(participant_names, winner_name, win_points=20, loss_point
 
 
 def get_player_mech(team, name):
-    return team.get("player_mechs", {}).get(name)
+    return canonicalize_mech_name(team.get("player_mechs", {}).get(name)) or ""
 
 
 def get_player_call_sign(team, name):
@@ -1362,10 +1414,53 @@ def get_rank_progress(rating):
     progress = ((rating - current_min) / (next_min - current_min)) * 100
     return next_rank, min(progress, 100), f"To {next_rank}"
 
+
+def normalize_team_mech_values(teams):
+    changed = False
+    fallback_mech = MECHS[0] if MECHS else ""
+
+    for team in teams:
+        player_mechs = team.get("player_mechs", {})
+        if isinstance(player_mechs, dict):
+            for player_name, mech_name in list(player_mechs.items()):
+                canonical = canonicalize_mech_name(mech_name)
+                if canonical:
+                    if mech_name != canonical:
+                        player_mechs[player_name] = canonical
+                        changed = True
+                else:
+                    player_mechs[player_name] = fallback_mech
+                    changed = True
+
+        npc_mechs = team.get("npc_mechs", [])
+        if isinstance(npc_mechs, list):
+            for i, npc in enumerate(npc_mechs):
+                if isinstance(npc, dict):
+                    npc_mech_name = npc.get("mech", "")
+                    if npc_mech_name:
+                        canonical_npc_mech = canonicalize_mech_name(npc_mech_name)
+                        if canonical_npc_mech:
+                            if npc_mech_name != canonical_npc_mech:
+                                npc["mech"] = canonical_npc_mech
+                                changed = True
+                        else:
+                            npc["mech"] = fallback_mech
+                            changed = True
+                elif isinstance(npc, str) and npc:
+                    canonical_npc_mech = canonicalize_mech_name(npc)
+                    npc_mechs[i] = canonical_npc_mech or fallback_mech
+                    if npc_mechs[i] != npc:
+                        changed = True
+
+    return changed
+
 # Session state initialization
 if "teams" not in st.session_state:
     disk_teams = load_teams_from_disk()
     st.session_state.teams = disk_teams if disk_teams else [dict(t) for t in DEFAULT_TEAMS]
+
+if normalize_team_mech_values(st.session_state.teams):
+    save_teams_to_disk(st.session_state.teams)
 
 if "player_images" not in st.session_state:
     st.session_state.player_images = load_images_from_disk().get("players", {})
