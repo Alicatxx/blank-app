@@ -36,7 +36,7 @@
   {
     "id": "team_3",
     "name": "Rust Jackels",
-    "tier": "Samyak-Samkalpa",
+    "tier": "Samyak-Dristi",
     "points": 0,
     "wins": 0,
     "losses": 0,
@@ -149,7 +149,7 @@
     "id": "team_7",
     "name": "Pale Drifters",
     "tier": "Samyak-Samkalpa",
-    "points": -1,
+    "points": 0,
     "wins": 0,
     "losses": 0,
     "created": "2026-07-09T16:17:05.833635",
