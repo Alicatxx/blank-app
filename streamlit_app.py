@@ -8,6 +8,7 @@ import base64
 import random
 import json
 import re
+import os
 from pathlib import Path
 
 # Page configuration
@@ -178,8 +179,8 @@ RANKS = {
     "Samyak-Karmānta": {"min_rating": 2000, "color": "#FFFEFC", "icon": "🜅"},
     "Samyag-Ájīva": {"min_rating": 2500, "color": "#07CFFC", "icon": "🜄"},
     "Samyag-Vyāyāma": {"min_rating": 3000, "color": "#E5FF00", "icon": "🜃"},
-    "SampaJanna": {"min_rating": 3000, "color": "#AE00FF", "icon": "🜂"},
-    "Deva Samyak-Samādhi": {"min_rating": 3000, "color": "#FF6B00", "icon": "🜁"},
+    "SampaJanna": {"min_rating": 3500, "color": "#AE00FF", "icon": "🜂"},
+    "Deva Samyak-Samādhi": {"min_rating": 4000, "color": "#FF6B00", "icon": "🜁"},
 }
 
 MECHS = [
@@ -285,30 +286,197 @@ DEFAULT_TEAMS = [
 ]
 
 # Persistent storage for teams and images
-TEAMS_FILE = Path("teams.json")
-IMAGES_FILE = Path("images.json")
-MATCHES_FILE = Path("matches.json")
-MAPS_FILE = Path("maps.json")
-SECURITY_FILE = Path("security.json")
+DATA_DIR = Path(__file__).resolve().parent
+TEAMS_FILE = DATA_DIR / "teams.json"
+IMAGES_FILE = DATA_DIR / "images.json"
+MATCHES_FILE = DATA_DIR / "matches.json"
+MAPS_FILE = DATA_DIR / "maps.json"
+SECURITY_FILE = DATA_DIR / "security.json"
+DELETED_TEAMS_FILE = DATA_DIR / "deleted_teams.json"
+SNAPSHOTS_DIR = DATA_DIR / "snapshots"
+MAX_SNAPSHOTS_PER_KIND = 120
+
+
+def write_json_atomic(file_path, payload, *, default_serializer=None):
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = file_path.with_suffix(f"{file_path.suffix}.tmp")
+    with temp_path.open("w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2, default=default_serializer)
+        f.flush()
+        os.fsync(f.fileno())
+    temp_path.replace(file_path)
+    try:
+        dir_fd = os.open(str(file_path.parent), os.O_RDONLY)
+        try:
+            os.fsync(dir_fd)
+        finally:
+            os.close(dir_fd)
+    except Exception:
+        pass
+
+
+def create_snapshot(kind, payload):
+    """Persist a timestamped snapshot file for recovery after host sleep/wake."""
+    if not kind:
+        return False
+
+    try:
+        SNAPSHOTS_DIR.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        snapshot_path = SNAPSHOTS_DIR / f"{timestamp}_{kind}.json"
+        snapshot_payload = {
+            "kind": kind,
+            "created_at": datetime.now().isoformat(),
+            "payload": payload,
+        }
+        write_json_atomic(snapshot_path, snapshot_payload, default_serializer=str)
+        cleanup_old_snapshots(kind, keep=MAX_SNAPSHOTS_PER_KIND)
+        return True
+    except Exception:
+        return False
+
+
+def cleanup_old_snapshots(kind, keep=MAX_SNAPSHOTS_PER_KIND):
+    prefix = f"_{kind}.json"
+    snapshot_files = sorted(
+        [p for p in SNAPSHOTS_DIR.glob(f"*{prefix}") if p.is_file()],
+        key=lambda p: p.name,
+        reverse=True,
+    )
+    for old_file in snapshot_files[keep:]:
+        try:
+            old_file.unlink()
+        except Exception:
+            pass
+
+
+def load_latest_snapshot_payload(kind):
+    """Return the most recent snapshot payload for a given kind, if available."""
+    try:
+        candidates = sorted(
+            [p for p in SNAPSHOTS_DIR.glob(f"*_{kind}.json") if p.is_file()],
+            key=lambda p: p.name,
+            reverse=True,
+        )
+    except Exception:
+        return None
+
+    for candidate in candidates:
+        try:
+            with candidate.open("r", encoding="utf-8") as f:
+                snapshot = json.load(f)
+            if isinstance(snapshot, dict):
+                payload = snapshot.get("payload")
+                if payload is not None:
+                    return payload
+        except Exception:
+            continue
+    return None
+
+
+def show_save_failure(kind, file_path, err):
+    st.error(
+        f"Could not save {kind} data to {file_path}. "
+        f"Changes are still in memory for this session. Error: {err}"
+    )
+
+
+def load_deleted_teams_from_disk():
+    if DELETED_TEAMS_FILE.exists():
+        try:
+            with DELETED_TEAMS_FILE.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, dict):
+                    ids = data.get("ids", [])
+                    names = data.get("names", [])
+                    return {
+                        "ids": [str(x).strip() for x in ids if str(x).strip()],
+                        "names": [str(x).strip().lower() for x in names if str(x).strip()],
+                    }
+        except Exception:
+            return {"ids": [], "names": []}
+    return {"ids": [], "names": []}
+
+
+def save_deleted_teams_to_disk(deleted_teams):
+    try:
+        payload = {
+            "ids": [str(x).strip() for x in deleted_teams.get("ids", []) if str(x).strip()],
+            "names": [str(x).strip().lower() for x in deleted_teams.get("names", []) if str(x).strip()],
+        }
+        write_json_atomic(DELETED_TEAMS_FILE, payload)
+        return True
+    except Exception:
+        return False
+
+
+def filter_deleted_teams(teams):
+    deleted = load_deleted_teams_from_disk()
+    deleted_ids = set(deleted.get("ids", []))
+    deleted_names = set(deleted.get("names", []))
+    if not deleted_ids and not deleted_names:
+        return teams
+
+    filtered = []
+    for team in teams:
+        team_id = str(team.get("id", "")).strip()
+        team_name = str(team.get("name", "")).strip().lower()
+        if team_id in deleted_ids or team_name in deleted_names:
+            continue
+        filtered.append(team)
+    return filtered
+
+
+def get_deleted_team_name_set():
+    deleted = load_deleted_teams_from_disk()
+    return set(deleted.get("names", []))
 
 def load_teams_from_disk():
+    backup_file = DATA_DIR / "teams.backup.json"
+
     if TEAMS_FILE.exists():
         try:
             with TEAMS_FILE.open("r", encoding="utf-8") as f:
                 data = json.load(f)
                 # ensure structure is a list
                 if isinstance(data, list):
-                    return data
+                    filtered = filter_deleted_teams(data)
+                    if len(filtered) != len(data):
+                        write_json_atomic(TEAMS_FILE, filtered)
+                    return filtered
         except Exception:
-            return []
+            pass
+
+    if backup_file.exists():
+        try:
+            with backup_file.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, list):
+                    filtered = filter_deleted_teams(data)
+                    write_json_atomic(TEAMS_FILE, filtered)
+                    return filtered
+        except Exception:
+            pass
+
+    snapshot_payload = load_latest_snapshot_payload("teams")
+    if isinstance(snapshot_payload, list):
+        filtered = filter_deleted_teams(snapshot_payload)
+        try:
+            write_json_atomic(TEAMS_FILE, filtered)
+        except Exception:
+            pass
+        return filtered
+
     return []
 
 def save_teams_to_disk(teams):
     try:
-        with TEAMS_FILE.open("w", encoding="utf-8") as f:
-            json.dump(teams, f, ensure_ascii=False, indent=2)
+        write_json_atomic(TEAMS_FILE, teams)
+        write_json_atomic(DATA_DIR / "teams.backup.json", teams)
+        create_snapshot("teams", teams)
         return True
-    except Exception:
+    except Exception as err:
+        show_save_failure("roster", TEAMS_FILE, err)
         return False
 
 
@@ -329,11 +497,20 @@ def load_images_from_disk():
 
 def save_images_to_disk(images):
     try:
-        with IMAGES_FILE.open("w", encoding="utf-8") as f:
-            json.dump(images, f, ensure_ascii=False, indent=2)
+        write_json_atomic(IMAGES_FILE, images)
         return True
-    except Exception:
+    except Exception as err:
+        show_save_failure("image", IMAGES_FILE, err)
         return False
+
+
+def save_player_images_to_disk(player_images):
+    existing_images = load_images_from_disk()
+    payload = {
+        "teams": existing_images.get("teams", {}),
+        "players": player_images,
+    }
+    return save_images_to_disk(payload)
 
 
 def load_matches_from_disk():
@@ -350,10 +527,11 @@ def load_matches_from_disk():
 
 def save_matches_to_disk(matches):
     try:
-        with MATCHES_FILE.open("w", encoding="utf-8") as f:
-            json.dump(matches, f, ensure_ascii=False, indent=2, default=str)
+        write_json_atomic(MATCHES_FILE, matches, default_serializer=str)
+        create_snapshot("matches", matches)
         return True
-    except Exception:
+    except Exception as err:
+        show_save_failure("match", MATCHES_FILE, err)
         return False
 
 
@@ -371,8 +549,7 @@ def load_maps_from_disk():
 
 def save_maps_to_disk(maps):
     try:
-        with MAPS_FILE.open("w", encoding="utf-8") as f:
-            json.dump(maps, f, ensure_ascii=False, indent=2)
+        write_json_atomic(MAPS_FILE, maps)
         return True
     except Exception:
         return False
@@ -392,8 +569,7 @@ def load_security_from_disk():
 
 def save_security_to_disk(entries):
     try:
-        with SECURITY_FILE.open("w", encoding="utf-8") as f:
-            json.dump(entries, f, indent=2, ensure_ascii=False)
+        write_json_atomic(SECURITY_FILE, entries)
         return True
     except Exception:
         return False
@@ -1185,6 +1361,11 @@ def add_team(name, tier, players, player_mechs, points, player_callsigns=None, n
     if any(t["name"].lower() == name.lower() for t in st.session_state.teams):
         return False
 
+    deleted = load_deleted_teams_from_disk()
+    normalized_name = name.lower()
+    deleted["names"] = [n for n in deleted.get("names", []) if n != normalized_name]
+    save_deleted_teams_to_disk(deleted)
+
     players = [p.strip() for p in players if p and p.strip()]
     team_mechs = {player: mech for player, mech in zip(players, player_mechs) if player}
     team_callsigns = {}
@@ -1264,6 +1445,17 @@ def update_team(team_id, name=None, tier=None, points=None, players=None, player
 
 
 def delete_team(team_id):
+    team = next((t for t in st.session_state.teams if t.get("id") == team_id), None)
+    deleted = load_deleted_teams_from_disk()
+    if team:
+        team_name = str(team.get("name", "")).strip().lower()
+        if team_name and team_name not in deleted.get("names", []):
+            deleted.setdefault("names", []).append(team_name)
+    team_id_str = str(team_id).strip()
+    if team_id_str and team_id_str not in deleted.get("ids", []):
+        deleted.setdefault("ids", []).append(team_id_str)
+    save_deleted_teams_to_disk(deleted)
+
     st.session_state.teams = [t for t in st.session_state.teams if t.get("id") != team_id]
     save_teams_to_disk(st.session_state.teams)
     return True
@@ -1454,10 +1646,158 @@ def normalize_team_mech_values(teams):
 
     return changed
 
+
+def _to_int(value, default=0):
+    try:
+        return int(value)
+    except Exception:
+        return default
+
+
+def _sanitize_team_for_restore(team, index):
+    if not isinstance(team, dict):
+        return None
+
+    name = str(team.get("name", "")).strip() or f"Imported Team {index + 1}"
+    points = _to_int(team.get("points", 0), 0)
+    wins = _to_int(team.get("wins", 0), 0)
+    losses = _to_int(team.get("losses", 0), 0)
+    players = [normalize_player_name(str(p)) for p in team.get("players", []) if str(p).strip()]
+    player_mechs_raw = team.get("player_mechs", {}) if isinstance(team.get("player_mechs", {}), dict) else {}
+    player_callsigns_raw = team.get("player_callsigns", {}) if isinstance(team.get("player_callsigns", {}), dict) else {}
+    fallback_mech = MECHS[0] if MECHS else ""
+
+    player_mechs = {}
+    player_callsigns = {}
+    for player in players:
+        mech_value = player_mechs_raw.get(player, fallback_mech)
+        player_mechs[player] = canonicalize_mech_name(mech_value) or fallback_mech
+        player_callsigns[player] = str(player_callsigns_raw.get(player, ""))
+
+    tier = team.get("tier")
+    if tier not in RANKS:
+        tier = get_rank(points)
+
+    npc_mechs = team.get("npc_mechs", []) if isinstance(team.get("npc_mechs", []), list) else []
+    avatar_url = str(team.get("avatar_url", ""))
+    team_id = str(team.get("id", "")).strip() or f"team_{index + 1}"
+
+    return {
+        "id": team_id,
+        "name": name,
+        "tier": tier,
+        "points": points,
+        "wins": wins,
+        "losses": losses,
+        "created": team.get("created") or datetime.now().isoformat(),
+        "players": players,
+        "player_mechs": player_mechs,
+        "player_callsigns": player_callsigns,
+        "npc_mechs": npc_mechs,
+        "avatar_url": avatar_url,
+    }
+
+
+def restore_players_backup(payload):
+    raw_teams = None
+    player_images = None
+
+    if isinstance(payload, list):
+        raw_teams = payload
+    elif isinstance(payload, dict):
+        if isinstance(payload.get("teams"), list):
+            raw_teams = payload.get("teams")
+        elif isinstance(payload.get("players"), list):
+            raw_teams = payload.get("players")
+        if isinstance(payload.get("player_images"), dict):
+            player_images = payload.get("player_images")
+
+    if not isinstance(raw_teams, list):
+        return False, "Players backup must be a JSON list of teams or an object with a 'teams' list."
+
+    restored_teams = []
+    for idx, team in enumerate(raw_teams):
+        parsed_team = _sanitize_team_for_restore(team, idx)
+        if parsed_team:
+            restored_teams.append(parsed_team)
+
+    if not restored_teams:
+        return False, "No valid teams were found in the players backup file."
+
+    st.session_state.teams = filter_deleted_teams(restored_teams)
+    if normalize_team_mech_values(st.session_state.teams):
+        pass
+    if not save_teams_to_disk(st.session_state.teams):
+        return False, "Teams were restored in memory but could not be written to disk."
+
+    if isinstance(player_images, dict):
+        st.session_state.player_images = {
+            str(k): str(v).strip() for k, v in player_images.items() if str(k).strip()
+        }
+        if not save_player_images_to_disk(st.session_state.player_images):
+            return False, "Teams were restored, but player images could not be written to disk."
+
+    return True, f"Restored {len(restored_teams)} team(s) from players backup."
+
+
+def _sanitize_match_for_restore(match, index):
+    if not isinstance(match, dict):
+        return None
+
+    participants_raw = match.get("participants", [])
+    participants = [str(name).strip() for name in participants_raw if str(name).strip()] if isinstance(participants_raw, list) else []
+    winner = str(match.get("winner", "")).strip()
+
+    updated_teams = match.get("updated_teams", [])
+    if not isinstance(updated_teams, list):
+        updated_teams = []
+
+    return {
+        "id": str(match.get("id", "")).strip() or f"match_{index + 1}",
+        "date": match.get("date") or datetime.now().isoformat(),
+        "participants": participants,
+        "winner": winner,
+        "map": str(match.get("map", "")),
+        "mission": str(match.get("mission", "")),
+        "win_points": _to_int(match.get("win_points", 20), 20),
+        "loss_points": _to_int(match.get("loss_points", -10), -10),
+        "notes": str(match.get("notes", "")),
+        "updated_teams": updated_teams,
+    }
+
+
+def restore_matches_backup(payload):
+    raw_matches = None
+
+    if isinstance(payload, list):
+        raw_matches = payload
+    elif isinstance(payload, dict) and isinstance(payload.get("matches"), list):
+        raw_matches = payload.get("matches")
+
+    if not isinstance(raw_matches, list):
+        return False, "Matches backup must be a JSON list or an object with a 'matches' list."
+
+    restored_matches = []
+    for idx, match in enumerate(raw_matches):
+        parsed_match = _sanitize_match_for_restore(match, idx)
+        if parsed_match:
+            restored_matches.append(parsed_match)
+
+    st.session_state.matches = restored_matches
+    if not save_matches_to_disk(st.session_state.matches):
+        return False, "Matches were restored in memory but could not be written to disk."
+
+    return True, f"Restored {len(restored_matches)} match record(s)."
+
 # Session state initialization
 if "teams" not in st.session_state:
     disk_teams = load_teams_from_disk()
     st.session_state.teams = disk_teams if disk_teams else [dict(t) for t in DEFAULT_TEAMS]
+
+filtered_teams = filter_deleted_teams(st.session_state.teams)
+if len(filtered_teams) != len(st.session_state.teams):
+    st.session_state.teams = filtered_teams
+    save_teams_to_disk(st.session_state.teams)
 
 if normalize_team_mech_values(st.session_state.teams):
     save_teams_to_disk(st.session_state.teams)
@@ -1535,7 +1875,7 @@ with tab2:
             new_avatar = st.text_input("Pilot image URL", value=st.session_state.player_images.get(selected_pilot, ""), key=f"profile_player_avatar_{selected_pilot}")
             if st.button("Save Pilot Picture", key=f"save_profile_player_avatar_{selected_pilot}"):
                 st.session_state.player_images[selected_pilot] = new_avatar.strip()
-                save_images_to_disk({"players": st.session_state.player_images, "teams": {}})
+                save_player_images_to_disk(st.session_state.player_images)
                 st.success(f"{selected_pilot} picture updated.")
                 st.rerun()
         with metrics_col:
@@ -1956,33 +2296,161 @@ with tab7:
         key="import_files"
     )
     if uploaded_files:
-        imported_teams = import_teams_from_files(uploaded_files)
-        if imported_teams:
-            existing_names = [t["name"] for t in st.session_state.teams]
-            added = 0
-            for imported_team in imported_teams:
-                padded_groups = pad_or_split_team(imported_team)
-                for group in padded_groups:
-                    group_name = normalize_import_team_name(group["name"], existing_names)
-                    existing_names.append(group_name)
-                    team = {
-                        "id": generate_team_id(st.session_state.teams),
-                        "name": group_name,
-                        "tier": get_rank(group.get("points", 0) or 0),
-                        "points": int(group.get("points", 0) or 0),
-                        "wins": 0,
-                        "losses": 0,
-                        "created": datetime.now().isoformat(),
-                        "players": group["players"],
-                        "player_mechs": group.get("player_mechs", {}),
-                        "avatar_url": ""
-                    }
-                    st.session_state.teams.append(team)
-                    added += 1
-            save_teams_to_disk(st.session_state.teams)
-            st.success(f"Imported {added} team(s) from uploaded files.")
+        st.caption("Files are staged. Click import once to add them.")
+        if st.button("Import Uploaded Team Files", key="import_uploaded_team_files"):
+            imported_teams = import_teams_from_files(uploaded_files)
+            if imported_teams:
+                existing_names = [t["name"] for t in st.session_state.teams]
+                deleted_name_set = get_deleted_team_name_set()
+                added = 0
+                skipped_deleted = 0
+                for imported_team in imported_teams:
+                    imported_name = str(imported_team.get("name", "")).strip().lower()
+                    if imported_name and imported_name in deleted_name_set:
+                        skipped_deleted += 1
+                        continue
+                    padded_groups = pad_or_split_team(imported_team)
+                    for group in padded_groups:
+                        group_name_base = str(group.get("name", "")).strip().lower()
+                        if group_name_base and group_name_base in deleted_name_set:
+                            skipped_deleted += 1
+                            continue
+                        group_name = normalize_import_team_name(group["name"], existing_names)
+                        existing_names.append(group_name)
+                        team = {
+                            "id": generate_team_id(st.session_state.teams),
+                            "name": group_name,
+                            "tier": get_rank(group.get("points", 0) or 0),
+                            "points": int(group.get("points", 0) or 0),
+                            "wins": 0,
+                            "losses": 0,
+                            "created": datetime.now().isoformat(),
+                            "players": group["players"],
+                            "player_mechs": group.get("player_mechs", {}),
+                            "avatar_url": ""
+                        }
+                        st.session_state.teams.append(team)
+                        added += 1
+                save_teams_to_disk(st.session_state.teams)
+                if skipped_deleted:
+                    st.warning(f"Skipped {skipped_deleted} deleted team(s) from import.")
+                st.success(f"Imported {added} team(s) from uploaded files.")
+            else:
+                st.warning("No valid teams found in the uploaded files.")
+
+    st.markdown("---")
+    st.subheader("Team Cleanup")
+    st.caption("Bulk remove teams permanently without editing JSON files.")
+    team_cleanup_ids = []
+    team_cleanup_labels = [f"{t['name']} ({t.get('id', '')})" for t in st.session_state.teams]
+    selected_cleanup_labels = st.multiselect(
+        "Select teams to permanently delete",
+        team_cleanup_labels,
+        key="team_cleanup_selection",
+    )
+    for label in selected_cleanup_labels:
+        if "(" in label and label.endswith(")"):
+            team_cleanup_ids.append(label.rsplit("(", 1)[-1].rstrip(")").strip())
+    if st.button("Delete Selected Teams Permanently", key="team_cleanup_delete_btn"):
+        if not team_cleanup_ids:
+            st.warning("Select at least one team to delete.")
         else:
-            st.warning("No valid teams found in the uploaded files.")
+            deleted = load_deleted_teams_from_disk()
+            id_set = set(team_cleanup_ids)
+            removed = 0
+            remaining = []
+            for team in st.session_state.teams:
+                team_id = str(team.get("id", "")).strip()
+                if team_id in id_set:
+                    removed += 1
+                    team_name = str(team.get("name", "")).strip().lower()
+                    if team_name and team_name not in deleted.get("names", []):
+                        deleted.setdefault("names", []).append(team_name)
+                    if team_id and team_id not in deleted.get("ids", []):
+                        deleted.setdefault("ids", []).append(team_id)
+                else:
+                    remaining.append(team)
+
+            if removed > 0:
+                save_deleted_teams_to_disk(deleted)
+                st.session_state.teams = remaining
+                save_teams_to_disk(st.session_state.teams)
+                st.success(f"Deleted {removed} team(s) permanently.")
+                st.rerun()
+            else:
+                st.info("No teams were deleted.")
+
+    st.markdown("---")
+    st.subheader("Backup / Restore")
+    backup_col1, backup_col2 = st.columns(2)
+    with backup_col1:
+        st.caption("Export and restore player roster data (teams and player images).")
+        players_backup_payload = {
+            "exported_at": datetime.now().isoformat(),
+            "teams": st.session_state.teams,
+            "player_images": st.session_state.player_images,
+        }
+        st.download_button(
+            "Download Players Backup (JSON)",
+            data=json.dumps(players_backup_payload, ensure_ascii=False, indent=2),
+            file_name=f"players_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
+            mime="application/json",
+            key="download_players_backup",
+        )
+        players_backup_upload = st.file_uploader(
+            "Upload Players Backup JSON",
+            type=["json"],
+            key="upload_players_backup",
+        )
+        if st.button("Restore Players Backup", key="restore_players_backup"):
+            if not players_backup_upload:
+                st.error("Choose a players backup JSON file first.")
+            else:
+                try:
+                    payload = json.loads(players_backup_upload.getvalue().decode("utf-8"))
+                except Exception:
+                    st.error("Could not read that players backup file as valid JSON.")
+                else:
+                    restored, restore_msg = restore_players_backup(payload)
+                    if restored:
+                        st.success(restore_msg)
+                        st.rerun()
+                    else:
+                        st.error(restore_msg)
+
+    with backup_col2:
+        st.caption("Export and restore match history data.")
+        matches_backup_payload = {
+            "exported_at": datetime.now().isoformat(),
+            "matches": st.session_state.matches,
+        }
+        st.download_button(
+            "Download Matches Backup (JSON)",
+            data=json.dumps(matches_backup_payload, ensure_ascii=False, indent=2),
+            file_name=f"matches_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
+            mime="application/json",
+            key="download_matches_backup",
+        )
+        matches_backup_upload = st.file_uploader(
+            "Upload Matches Backup JSON",
+            type=["json"],
+            key="upload_matches_backup",
+        )
+        if st.button("Restore Matches Backup", key="restore_matches_backup"):
+            if not matches_backup_upload:
+                st.error("Choose a matches backup JSON file first.")
+            else:
+                try:
+                    payload = json.loads(matches_backup_upload.getvalue().decode("utf-8"))
+                except Exception:
+                    st.error("Could not read that matches backup file as valid JSON.")
+                else:
+                    restored, restore_msg = restore_matches_backup(payload)
+                    if restored:
+                        st.success(restore_msg)
+                        st.rerun()
+                    else:
+                        st.error(restore_msg)
 
     # Team creation form
     with st.expander("Create a new team"):
@@ -2053,7 +2521,6 @@ with tab7:
 
                 st.markdown("---")
                 st.subheader("Edit Team")
-                edit_name = st.text_input("Team Name", selected["name"], key=f"edit_team_name_{selected['id']}")
                 available_tiers = list(RANKS.keys())
                 current_tier = selected.get("tier", available_tiers[0])
                 tier_key = f"edit_team_tier_{selected['id']}"
@@ -2085,40 +2552,46 @@ with tab7:
                         if active_index > 0:
                             st.session_state[tier_pending_key] = available_tiers[active_index - 1]
                         st.rerun()
-                edit_points = st.number_input("Team Points", value=selected["points"], step=1, key=f"edit_team_points_{selected['id']}")
-                player_cols = st.columns([2, 1, 1])
-                edited_players = []
-                edited_mechs = {}
-                edited_callsigns = {}
-                for i in range(6):
-                    current_player = selected["players"][i] if i < len(selected["players"]) else ""
-                    current_mech = get_player_mech(selected, current_player) or MECHS[0]
-                    current_callsign = selected.get("player_callsigns", {}).get(current_player, "") if current_player else ""
-                    with player_cols[0]:
-                        player_name = st.text_input(f"Player {i+1}", value=current_player, key=f"edit_player_name_{selected['id']}_{i}")
-                    with player_cols[1]:
-                        player_callsign = st.text_input(f"Call Sign {i+1}", value=current_callsign, key=f"edit_player_call_sign_{selected['id']}_{i}")
-                    with player_cols[2]:
-                        player_mech = st.selectbox(f"Mech {i+1}", MECHS, index=MECHS.index(current_mech) if current_mech in MECHS else 0, key=f"edit_player_mech_{selected['id']}_{i}")
-                    if player_name.strip():
-                        edited_players.append(player_name.strip())
-                        edited_mechs[player_name.strip()] = player_mech
-                        edited_callsigns[player_name.strip()] = player_callsign.strip()
-                # NPC mechs editing
-                existing_npc_lines = []
-                for npc in selected.get("npc_mechs", []):
-                    if isinstance(npc, dict):
-                        existing_npc_lines.append(f"{npc.get('name','')}: {npc.get('mech','')}")
-                    else:
-                        existing_npc_lines.append(str(npc))
-                npc_mechs_text = st.text_area("NPC Mechs (one per line: Name:Type)", value="\n".join(existing_npc_lines), key=f"edit_npc_mechs_{selected['id']}")
-                if st.button("Save Team Changes", key=f"save_team_changes_{selected['id']}"):
+
+                with st.form(f"edit_team_form_{selected['id']}"):
+                    st.caption("Press Enter while editing to save team changes.")
+                    edit_name = st.text_input("Team Name", selected["name"], key=f"edit_team_name_{selected['id']}")
+                    edit_points = st.number_input("Team Points", value=selected["points"], step=1, key=f"edit_team_points_{selected['id']}")
+                    player_cols = st.columns([2, 1, 1])
+                    edited_players = []
+                    edited_mechs = {}
+                    edited_callsigns = {}
+                    for i in range(6):
+                        current_player = selected["players"][i] if i < len(selected["players"]) else ""
+                        current_mech = get_player_mech(selected, current_player) or MECHS[0]
+                        current_callsign = selected.get("player_callsigns", {}).get(current_player, "") if current_player else ""
+                        with player_cols[0]:
+                            player_name = st.text_input(f"Player {i+1}", value=current_player, key=f"edit_player_name_{selected['id']}_{i}")
+                        with player_cols[1]:
+                            player_callsign = st.text_input(f"Call Sign {i+1}", value=current_callsign, key=f"edit_player_call_sign_{selected['id']}_{i}")
+                        with player_cols[2]:
+                            player_mech = st.selectbox(f"Mech {i+1}", MECHS, index=MECHS.index(current_mech) if current_mech in MECHS else 0, key=f"edit_player_mech_{selected['id']}_{i}")
+                        if player_name.strip():
+                            edited_players.append(player_name.strip())
+                            edited_mechs[player_name.strip()] = player_mech
+                            edited_callsigns[player_name.strip()] = player_callsign.strip()
+
+                    existing_npc_lines = []
+                    for npc in selected.get("npc_mechs", []):
+                        if isinstance(npc, dict):
+                            existing_npc_lines.append(f"{npc.get('name','')}: {npc.get('mech','')}")
+                        else:
+                            existing_npc_lines.append(str(npc))
+                    npc_mechs_text = st.text_area("NPC Mechs (one per line: Name:Type)", value="\n".join(existing_npc_lines), key=f"edit_npc_mechs_{selected['id']}")
+
+                    save_team_changes = st.form_submit_button("Save Team Changes")
+
+                if save_team_changes:
                     if not edit_name.strip():
                         st.error("Team name cannot be empty.")
                     elif any(t["name"].lower() == edit_name.strip().lower() and t["id"] != selected["id"] for t in st.session_state.teams):
                         st.error("Another team already uses that name.")
                     else:
-                        # parse npc mechs text into list
                         npc_mechs_list = []
                         for line in (npc_mechs_text or "").splitlines():
                             if not line.strip():
@@ -2130,7 +2603,7 @@ with tab7:
                         update_team(
                             selected["id"],
                             name=edit_name.strip(),
-                            tier=edit_tier,
+                            tier=st.session_state.get(tier_pending_key, current_tier),
                             points=edit_points,
                             players=edited_players,
                             player_mechs=edited_mechs,
@@ -2163,7 +2636,7 @@ with tab7:
                     if st.button(f"Save {player} Settings", key=f"save_player_settings_{player}_{selected['id']}"):
                         st.session_state.player_images[player] = new_player_avatar.strip()
                         selected.setdefault("player_mechs", {})[player] = new_player_mech
-                        save_images_to_disk({"players": st.session_state.player_images, "teams": {}})
+                        save_player_images_to_disk(st.session_state.player_images)
                         save_teams_to_disk(st.session_state.teams)
                         st.success(f"{player} picture and mech updated.")
                         st.rerun()
@@ -2235,7 +2708,7 @@ with tab7:
                     new_avatar = st.text_input("Player image URL", value=st.session_state.player_images.get(selected_pilot, ""), key=f"profile_player_avatar_{selected_pilot}")
                     if st.button("Save Pilot Picture", key=f"save_profile_player_avatar_{selected_pilot}"):
                         st.session_state.player_images[selected_pilot] = new_avatar.strip()
-                        save_images_to_disk({"players": st.session_state.player_images, "teams": {}})
+                        save_player_images_to_disk(st.session_state.player_images)
                         st.success(f"{selected_pilot} picture updated.")
                         st.rerun()
 
