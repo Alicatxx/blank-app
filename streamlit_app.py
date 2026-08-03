@@ -2288,171 +2288,7 @@ with tab7:
     if "player_images" not in st.session_state:
         st.session_state.player_images = load_images_from_disk().get("players", {})
 
-    st.subheader("Import Lancer / Obsidian Roster Files")
-    uploaded_files = st.file_uploader(
-        "Upload team/pilot JSON or Obsidian markdown files", 
-        type=["json", "md", "markdown", "txt"], 
-        accept_multiple_files=True,
-        key="import_files"
-    )
-    if uploaded_files:
-        st.caption("Files are staged. Click import once to add them.")
-        if st.button("Import Uploaded Team Files", key="import_uploaded_team_files"):
-            imported_teams = import_teams_from_files(uploaded_files)
-            if imported_teams:
-                existing_names = [t["name"] for t in st.session_state.teams]
-                deleted_name_set = get_deleted_team_name_set()
-                added = 0
-                skipped_deleted = 0
-                for imported_team in imported_teams:
-                    imported_name = str(imported_team.get("name", "")).strip().lower()
-                    if imported_name and imported_name in deleted_name_set:
-                        skipped_deleted += 1
-                        continue
-                    padded_groups = pad_or_split_team(imported_team)
-                    for group in padded_groups:
-                        group_name_base = str(group.get("name", "")).strip().lower()
-                        if group_name_base and group_name_base in deleted_name_set:
-                            skipped_deleted += 1
-                            continue
-                        group_name = normalize_import_team_name(group["name"], existing_names)
-                        existing_names.append(group_name)
-                        team = {
-                            "id": generate_team_id(st.session_state.teams),
-                            "name": group_name,
-                            "tier": get_rank(group.get("points", 0) or 0),
-                            "points": int(group.get("points", 0) or 0),
-                            "wins": 0,
-                            "losses": 0,
-                            "created": datetime.now().isoformat(),
-                            "players": group["players"],
-                            "player_mechs": group.get("player_mechs", {}),
-                            "avatar_url": ""
-                        }
-                        st.session_state.teams.append(team)
-                        added += 1
-                save_teams_to_disk(st.session_state.teams)
-                if skipped_deleted:
-                    st.warning(f"Skipped {skipped_deleted} deleted team(s) from import.")
-                st.success(f"Imported {added} team(s) from uploaded files.")
-            else:
-                st.warning("No valid teams found in the uploaded files.")
-
-    st.markdown("---")
-    st.subheader("Team Cleanup")
-    st.caption("Bulk remove teams permanently without editing JSON files.")
-    team_cleanup_ids = []
-    team_cleanup_labels = [f"{t['name']} ({t.get('id', '')})" for t in st.session_state.teams]
-    selected_cleanup_labels = st.multiselect(
-        "Select teams to permanently delete",
-        team_cleanup_labels,
-        key="team_cleanup_selection",
-    )
-    for label in selected_cleanup_labels:
-        if "(" in label and label.endswith(")"):
-            team_cleanup_ids.append(label.rsplit("(", 1)[-1].rstrip(")").strip())
-    if st.button("Delete Selected Teams Permanently", key="team_cleanup_delete_btn"):
-        if not team_cleanup_ids:
-            st.warning("Select at least one team to delete.")
-        else:
-            deleted = load_deleted_teams_from_disk()
-            id_set = set(team_cleanup_ids)
-            removed = 0
-            remaining = []
-            for team in st.session_state.teams:
-                team_id = str(team.get("id", "")).strip()
-                if team_id in id_set:
-                    removed += 1
-                    team_name = str(team.get("name", "")).strip().lower()
-                    if team_name and team_name not in deleted.get("names", []):
-                        deleted.setdefault("names", []).append(team_name)
-                    if team_id and team_id not in deleted.get("ids", []):
-                        deleted.setdefault("ids", []).append(team_id)
-                else:
-                    remaining.append(team)
-
-            if removed > 0:
-                save_deleted_teams_to_disk(deleted)
-                st.session_state.teams = remaining
-                save_teams_to_disk(st.session_state.teams)
-                st.success(f"Deleted {removed} team(s) permanently.")
-                st.rerun()
-            else:
-                st.info("No teams were deleted.")
-
-    st.markdown("---")
-    st.subheader("Backup / Restore")
-    backup_col1, backup_col2 = st.columns(2)
-    with backup_col1:
-        st.caption("Export and restore player roster data (teams and player images).")
-        players_backup_payload = {
-            "exported_at": datetime.now().isoformat(),
-            "teams": st.session_state.teams,
-            "player_images": st.session_state.player_images,
-        }
-        st.download_button(
-            "Download Players Backup (JSON)",
-            data=json.dumps(players_backup_payload, ensure_ascii=False, indent=2),
-            file_name=f"players_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
-            mime="application/json",
-            key="download_players_backup",
-        )
-        players_backup_upload = st.file_uploader(
-            "Upload Players Backup JSON",
-            type=["json"],
-            key="upload_players_backup",
-        )
-        if st.button("Restore Players Backup", key="restore_players_backup"):
-            if not players_backup_upload:
-                st.error("Choose a players backup JSON file first.")
-            else:
-                try:
-                    payload = json.loads(players_backup_upload.getvalue().decode("utf-8"))
-                except Exception:
-                    st.error("Could not read that players backup file as valid JSON.")
-                else:
-                    restored, restore_msg = restore_players_backup(payload)
-                    if restored:
-                        st.success(restore_msg)
-                        st.rerun()
-                    else:
-                        st.error(restore_msg)
-
-    with backup_col2:
-        st.caption("Export and restore match history data.")
-        matches_backup_payload = {
-            "exported_at": datetime.now().isoformat(),
-            "matches": st.session_state.matches,
-        }
-        st.download_button(
-            "Download Matches Backup (JSON)",
-            data=json.dumps(matches_backup_payload, ensure_ascii=False, indent=2),
-            file_name=f"matches_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
-            mime="application/json",
-            key="download_matches_backup",
-        )
-        matches_backup_upload = st.file_uploader(
-            "Upload Matches Backup JSON",
-            type=["json"],
-            key="upload_matches_backup",
-        )
-        if st.button("Restore Matches Backup", key="restore_matches_backup"):
-            if not matches_backup_upload:
-                st.error("Choose a matches backup JSON file first.")
-            else:
-                try:
-                    payload = json.loads(matches_backup_upload.getvalue().decode("utf-8"))
-                except Exception:
-                    st.error("Could not read that matches backup file as valid JSON.")
-                else:
-                    restored, restore_msg = restore_matches_backup(payload)
-                    if restored:
-                        st.success(restore_msg)
-                        st.rerun()
-                    else:
-                        st.error(restore_msg)
-
-    # Team creation form
+    st.subheader("Create New")
     with st.expander("Create a new team"):
         with st.form("create_team_form"):
             team_name = st.text_input("Team Name")
@@ -2485,9 +2321,9 @@ with tab7:
                 ok = add_team(team_name, tier_choice, players_inputs, mech_inputs, init_points, player_callsigns, npc_mechs=npc_mechs)
                 if ok:
                     st.success(f"Team '{team_name}' created and placed in tier: {tier_choice}.")
+                    st.rerun()
 
-    # Team leaderboard and selection
-    st.subheader("Team Leaderboard")
+    st.subheader("Leaderboard")
     if len(st.session_state.teams) == 0:
         st.info("No teams yet — create one using the form above.")
     else:
@@ -2688,6 +2524,171 @@ with tab7:
                         st.error("Unable to move pilot. Ensure the destination team has fewer than 6 pilots.")
             else:
                 st.info("Add a second team to enable pilot transfers.")
+
+        st.markdown("---")
+        st.subheader("Team Cleanup")
+        st.caption("Bulk remove teams permanently without editing JSON files.")
+        team_cleanup_ids = []
+        team_cleanup_labels = [f"{t['name']} ({t.get('id', '')})" for t in st.session_state.teams]
+        selected_cleanup_labels = st.multiselect(
+            "Select teams to permanently delete",
+            team_cleanup_labels,
+            key="team_cleanup_selection",
+        )
+        for label in selected_cleanup_labels:
+            if "(" in label and label.endswith(")"):
+                team_cleanup_ids.append(label.rsplit("(", 1)[-1].rstrip(")").strip())
+        if st.button("Delete Selected Teams Permanently", key="team_cleanup_delete_btn"):
+            if not team_cleanup_ids:
+                st.warning("Select at least one team to delete.")
+            else:
+                deleted = load_deleted_teams_from_disk()
+                id_set = set(team_cleanup_ids)
+                removed = 0
+                remaining = []
+                for team in st.session_state.teams:
+                    team_id = str(team.get("id", "")).strip()
+                    if team_id in id_set:
+                        removed += 1
+                        team_name = str(team.get("name", "")).strip().lower()
+                        if team_name and team_name not in deleted.get("names", []):
+                            deleted.setdefault("names", []).append(team_name)
+                        if team_id and team_id not in deleted.get("ids", []):
+                            deleted.setdefault("ids", []).append(team_id)
+                    else:
+                        remaining.append(team)
+
+                if removed > 0:
+                    save_deleted_teams_to_disk(deleted)
+                    st.session_state.teams = remaining
+                    save_teams_to_disk(st.session_state.teams)
+                    st.success(f"Deleted {removed} team(s) permanently.")
+                    st.rerun()
+                else:
+                    st.info("No teams were deleted.")
+
+        st.markdown("---")
+        st.subheader("Download / Upload JSONs")
+        backup_col1, backup_col2 = st.columns(2)
+        with backup_col1:
+            st.caption("Export and restore player roster data (teams and player images).")
+            players_backup_payload = {
+                "exported_at": datetime.now().isoformat(),
+                "teams": st.session_state.teams,
+                "player_images": st.session_state.player_images,
+            }
+            st.download_button(
+                "Download Players Backup (JSON)",
+                data=json.dumps(players_backup_payload, ensure_ascii=False, indent=2),
+                file_name=f"players_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
+                mime="application/json",
+                key="download_players_backup",
+            )
+            players_backup_upload = st.file_uploader(
+                "Upload Players Backup JSON",
+                type=["json"],
+                key="upload_players_backup",
+            )
+            if st.button("Restore Players Backup", key="restore_players_backup"):
+                if not players_backup_upload:
+                    st.error("Choose a players backup JSON file first.")
+                else:
+                    try:
+                        payload = json.loads(players_backup_upload.getvalue().decode("utf-8"))
+                    except Exception:
+                        st.error("Could not read that players backup file as valid JSON.")
+                    else:
+                        restored, restore_msg = restore_players_backup(payload)
+                        if restored:
+                            st.success(restore_msg)
+                            st.rerun()
+                        else:
+                            st.error(restore_msg)
+
+        with backup_col2:
+            st.caption("Export and restore match history data.")
+            matches_backup_payload = {
+                "exported_at": datetime.now().isoformat(),
+                "matches": st.session_state.matches,
+            }
+            st.download_button(
+                "Download Matches Backup (JSON)",
+                data=json.dumps(matches_backup_payload, ensure_ascii=False, indent=2),
+                file_name=f"matches_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
+                mime="application/json",
+                key="download_matches_backup",
+            )
+            matches_backup_upload = st.file_uploader(
+                "Upload Matches Backup JSON",
+                type=["json"],
+                key="upload_matches_backup",
+            )
+            if st.button("Restore Matches Backup", key="restore_matches_backup"):
+                if not matches_backup_upload:
+                    st.error("Choose a matches backup JSON file first.")
+                else:
+                    try:
+                        payload = json.loads(matches_backup_upload.getvalue().decode("utf-8"))
+                    except Exception:
+                        st.error("Could not read that matches backup file as valid JSON.")
+                    else:
+                        restored, restore_msg = restore_matches_backup(payload)
+                        if restored:
+                            st.success(restore_msg)
+                            st.rerun()
+                        else:
+                            st.error(restore_msg)
+
+        st.markdown("---")
+        st.subheader("Import Lancer / Obsidian")
+        uploaded_files = st.file_uploader(
+            "Upload team/pilot JSON or Obsidian markdown files",
+            type=["json", "md", "markdown", "txt"],
+            accept_multiple_files=True,
+            key="import_files",
+        )
+        if uploaded_files:
+            st.caption("Files are staged. Click import once to add them.")
+            if st.button("Import Uploaded Team Files", key="import_uploaded_team_files"):
+                imported_teams = import_teams_from_files(uploaded_files)
+                if imported_teams:
+                    existing_names = [t["name"] for t in st.session_state.teams]
+                    deleted_name_set = get_deleted_team_name_set()
+                    added = 0
+                    skipped_deleted = 0
+                    for imported_team in imported_teams:
+                        imported_name = str(imported_team.get("name", "")).strip().lower()
+                        if imported_name and imported_name in deleted_name_set:
+                            skipped_deleted += 1
+                            continue
+                        padded_groups = pad_or_split_team(imported_team)
+                        for group in padded_groups:
+                            group_name_base = str(group.get("name", "")).strip().lower()
+                            if group_name_base and group_name_base in deleted_name_set:
+                                skipped_deleted += 1
+                                continue
+                            group_name = normalize_import_team_name(group["name"], existing_names)
+                            existing_names.append(group_name)
+                            team = {
+                                "id": generate_team_id(st.session_state.teams),
+                                "name": group_name,
+                                "tier": get_rank(group.get("points", 0) or 0),
+                                "points": int(group.get("points", 0) or 0),
+                                "wins": 0,
+                                "losses": 0,
+                                "created": datetime.now().isoformat(),
+                                "players": group["players"],
+                                "player_mechs": group.get("player_mechs", {}),
+                                "avatar_url": "",
+                            }
+                            st.session_state.teams.append(team)
+                            added += 1
+                    save_teams_to_disk(st.session_state.teams)
+                    if skipped_deleted:
+                        st.warning(f"Skipped {skipped_deleted} deleted team(s) from import.")
+                    st.success(f"Imported {added} team(s) from uploaded files.")
+                else:
+                    st.warning("No valid teams found in the uploaded files.")
 
         st.markdown("---")
         st.subheader("Pilot Stats")
