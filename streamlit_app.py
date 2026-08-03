@@ -1789,6 +1789,30 @@ def restore_matches_backup(payload):
 
     return True, f"Restored {len(restored_matches)} match record(s)."
 
+
+def parse_uploaded_json_file(uploaded_file):
+    """Parse uploaded JSON with BOM/encoding tolerance and return (payload, error)."""
+    if uploaded_file is None:
+        return None, "No file provided."
+
+    raw = uploaded_file.getvalue()
+    if not raw:
+        return None, "The uploaded file is empty."
+
+    decode_attempts = ["utf-8-sig", "utf-8", "latin-1"]
+    last_error = None
+    for encoding in decode_attempts:
+        try:
+            text = raw.decode(encoding)
+            text = text.lstrip("\ufeff").strip()
+            if not text:
+                return None, "The uploaded file has no JSON content."
+            return json.loads(text), None
+        except Exception as err:
+            last_error = err
+
+    return None, f"Invalid JSON ({last_error})"
+
 # Session state initialization
 if "teams" not in st.session_state:
     disk_teams = load_teams_from_disk()
@@ -2593,10 +2617,9 @@ with tab7:
                 if not players_backup_upload:
                     st.error("Choose a players backup JSON file first.")
                 else:
-                    try:
-                        payload = json.loads(players_backup_upload.getvalue().decode("utf-8"))
-                    except Exception:
-                        st.error("Could not read that players backup file as valid JSON.")
+                    payload, parse_error = parse_uploaded_json_file(players_backup_upload)
+                    if parse_error:
+                        st.error(f"Could not read that players backup file as valid JSON. {parse_error}")
                     else:
                         restored, restore_msg = restore_players_backup(payload)
                         if restored:
@@ -2627,10 +2650,9 @@ with tab7:
                 if not matches_backup_upload:
                     st.error("Choose a matches backup JSON file first.")
                 else:
-                    try:
-                        payload = json.loads(matches_backup_upload.getvalue().decode("utf-8"))
-                    except Exception:
-                        st.error("Could not read that matches backup file as valid JSON.")
+                    payload, parse_error = parse_uploaded_json_file(matches_backup_upload)
+                    if parse_error:
+                        st.error(f"Could not read that matches backup file as valid JSON. {parse_error}")
                     else:
                         restored, restore_msg = restore_matches_backup(payload)
                         if restored:
