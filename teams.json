@@ -1,356 +1,1452 @@
 [
-  {
-    "id": "team_1",
-    "name": "Suvara Six",
-    "tier": "Samyak-Dristi",
-    "players": [
-      "Nancy Nekoichi",
-      "Ld Victoria Vespiria Silverstream",
-      "Zen",
-      "Dr Melissa Tuluxo",
-      "Elsie Ranfaing",
-      "Ld Evelyn Blackwood"
-    ],
-    "points": 0,
-    "created": "2026-07-09T13:19:39.838596",
-    "wins": 0,
-    "losses": 0,
-    "player_mechs": {
-      "Nancy Nekoichi": "HA Sunzi",
-      "Ld Victoria Vespiria Silverstream": "HA Tokugawa",
-      "Zen": "ISP-N Vlad",
-      "Dr Melissa Tuluxo": "ISP-N Kidd",
-      "Elsie Ranfaing": "SSC Atlas",
-      "Ld Evelyn Blackwood": "SSC Swallowtail"
+    {
+      "id": "team_1",
+      "name": "Suvara Six",
+      "tier": "Samyak-Dristi",
+      "points": 0,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-07-09T13:19:39.838596",
+      "players": [
+        "Nancy Nekoichi",
+        "Ld Victoria Vespiria Silverstream",
+        "Zen",
+        "Dr Melissa Tuluxo",
+        "Elsie Ranfaing",
+        "Ld Evelyn Blackwood"
+      ],
+      "player_mechs": {
+        "Nancy Nekoichi": "HA Sunzi",
+        "Ld Victoria Vespiria Silverstream": "HA Tokugawa",
+        "Zen": "ISP-N Vlad",
+        "Dr Melissa Tuluxo": "ISP-N Kidd",
+        "Elsie Ranfaing": "SSC Atlas",
+        "Ld Evelyn Blackwood": "SSC Swallowtail"
+      },
+      "player_callsigns": {
+        "Nancy Nekoichi": "Neko",
+        "Ld Victoria Vespiria Silverstream": "Candevata",
+        "Zen": "Canis",
+        "Dr Melissa Tuluxo": "Doc",
+        "Elsie Ranfaing": "Box Cars",
+        "Ld Evelyn Blackwood": "Poppet"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
     },
-    "player_callsigns": {
-      "Nancy Nekoichi": "Neko",
-      "Ld Victoria Vespiria Silverstream": "Candevata",
-      "Zen": "Canis",
-      "Dr Melissa Tuluxo": "Doc",
-      "Elsie Ranfaing": "Box Cars",
-      "Ld Evelyn Blackwood": "Poppet"
+    {
+      "id": "team_7",
+      "name": "Pale Drifters",
+      "tier": "Samyak-Dristi",
+      "points": 0,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-07-09T16:17:05.833635",
+      "players": [
+        "Marik Remaire",
+        "Seri Ashley",
+        "Meara Tryna",
+        "John Lancer",
+        "Tyra McArla",
+        "Claud Pithoys"
+      ],
+      "player_mechs": {
+        "Marik Remaire": "Archer",
+        "Seri Ashley": "Archer",
+        "Meara Tryna": "Archer",
+        "John Lancer": "Archer",
+        "Tyra McArla": "Archer",
+        "Claud Pithoys": "Archer"
+      },
+      "player_callsigns": {
+        "Marik Remaire": "Revolver",
+        "Seri Ashley": "GlitzMek",
+        "Meara Tryna": "DreadMuse",
+        "John Lancer": "PingLord",
+        "Tyra McArla": "FrenzyPop",
+        "Claud Pithoys": "Heretic"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
     },
-    "npc_mechs": []
-  },
-  {
-    "id": "team_3",
-    "name": "Rust Jackels",
-    "tier": "Samyak-Dristi",
-    "points": 0,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-09T16:12:48.476983",
-    "players": [
-      "Gigi Kisses",
-      "Jaya Kay",
-      "Juno Kess",
-      "Aaron Varrik",
-      "Selene Ardyn",
-      "Tarin Rhymer"
-    ],
-    "player_mechs": {
-      "Gigi Kisses": "Archer",
-      "Jaya Kay": "Archer",
-      "Juno Kess": "Archer",
-      "Aaron Varrik": "Archer",
-      "Selene Ardyn": "Archer",
-      "Tarin Rhymer": "Archer"
+    {
+      "id": "team_8",
+      "name": "Blue Ember Union",
+      "tier": "Samyak-Dristi",
+      "points": 0,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-07-10T07:49:42.948705",
+      "players": [
+        "Kade Marron",
+        "Rhea Solari",
+        "Riven Verren",
+        "Marlow Pell",
+        "Tovin Arclen",
+        "Sable Lunehart"
+      ],
+      "player_mechs": {
+        "Kade Marron": "Archer",
+        "Rhea Solari": "Archer",
+        "Riven Verren": "Archer",
+        "Marlow Pell": "Archer",
+        "Tovin Arclen": "Archer",
+        "Sable Lunehart": "Archer"
+      },
+      "player_callsigns": {
+        "Kade Marron": "Swipe Right",
+        "Rhea Solari": "Balance Due",
+        "Riven Verren": "Tap to Pay",
+        "Marlow Pell": "CreditLimit",
+        "Tovin Arclen": "Late Fee",
+        "Sable Lunehart": "CashBash"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
     },
-    "avatar_url": "",
-    "player_callsigns": {
-      "Gigi Kisses": "PulseGrid",
-      "Jaya Kay": "BoomBaby",
-      "Juno Kess": "Redstep",
-      "Aaron Varrik": "Rattlejacket",
-      "Selene Ardyn": "Sable",
-      "Tarin Rhymer": "StaticBolt"
+    {
+      "id": "team_9",
+      "name": "Gutterlight Saints",
+      "tier": "Samyak-Dristi",
+      "points": 0,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-07-10T07:51:40.812592",
+      "players": [
+        "Lio Varrin",
+        "Tessa Marn",
+        "Orin Pellos",
+        "Vexa Rhyll",
+        "Joren Halvek",
+        "Nia Solenne"
+      ],
+      "player_mechs": {
+        "Lio Varrin": "Archer",
+        "Tessa Marn": "Archer",
+        "Orin Pellos": "Archer",
+        "Vexa Rhyll": "Archer",
+        "Joren Halvek": "Archer",
+        "Nia Solenne": "Archer"
+      },
+      "player_callsigns": {
+        "Lio Varrin": "LuckyBreak",
+        "Tessa Marn": "Short Stack",
+        "Orin Pellos": "ColdDice",
+        "Vexa Rhyll": "Double Down",
+        "Joren Halvek": "BadBeat",
+        "Nia Solenne": "Jackpot"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_10",
+      "name": "Iron Orchid",
+      "tier": "Samyak-Dristi",
+      "points": 0,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-07-10T08:39:57.480754",
+      "players": [
+        "Colt Arden",
+        "Risa Vant",
+        "Dane Korrin",
+        "Veyra Esten",
+        "Kerr Tellen",
+        "Orren Vale"
+      ],
+      "player_mechs": {
+        "Colt Arden": "Archer",
+        "Risa Vant": "Archer",
+        "Dane Korrin": "Archer",
+        "Veyra Esten": "Archer",
+        "Kerr Tellen": "Archer",
+        "Orren Vale": "Archer"
+      },
+      "player_callsigns": {
+        "Colt Arden": "Thresh",
+        "Risa Vant": "Harrow",
+        "Dane Korrin": "Ironseed",
+        "Veyra Esten": "ColdFurrow",
+        "Kerr Tellen": "Grainlock",
+        "Orren Vale": "Backscatter"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_11",
+      "name": "Neon Wasp Syndicate",
+      "tier": "Samyak-Dristi",
+      "points": 0,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-07-10T08:41:28.720572",
+      "players": [
+        "Vex Halden",
+        "Kira Mino",
+        "Dante Serin",
+        "Nova Yessir",
+        "Rho Talvek",
+        "Serae Dray"
+      ],
+      "player_mechs": {
+        "Vex Halden": "Archer",
+        "Kira Mino": "Archer",
+        "Dante Serin": "Archer",
+        "Nova Yessir": "Archer",
+        "Rho Talvek": "Archer",
+        "Serae Dray": "Archer"
+      },
+      "player_callsigns": {
+        "Vex Halden": "Overclock",
+        "Kira Mino": "Lag Switch",
+        "Dante Serin": "TiltLock",
+        "Nova Yessir": "ClipFarm",
+        "Rho Talvek": "Keybind",
+        "Serae Dray": "AFKAngel"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_12",
+      "name": "Pattern Breakers",
+      "tier": "Samyak-Dristi",
+      "points": 0,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-07-10T08:42:46.905303",
+      "players": [
+        "Venn Roul",
+        "Irie solenne",
+        "Vale Varrin",
+        "Lune Kess",
+        "Bran Dreyl",
+        "Nyra Pell"
+      ],
+      "player_mechs": {
+        "Venn Roul": "Archer",
+        "Irie solenne": "Archer",
+        "Vale Varrin": "Archer",
+        "Lune Kess": "Archer",
+        "Bran Dreyl": "Archer",
+        "Nyra Pell": "Archer"
+      },
+      "player_callsigns": {
+        "Venn Roul": "Crossfade",
+        "Irie solenne": "Threadkill",
+        "Vale Varrin": "Backstitch",
+        "Lune Kess": "DropNeedle",
+        "Bran Dreyl": "Hemlock",
+        "Nyra Pell": "Ghostweft"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_13",
+      "name": "blank team",
+      "tier": "Samyak-Dristi",
+      "points": 0,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_14",
+      "name": "Breakwater Down",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Kess Prynn",
+        "Talyn Rhysae",
+        "Vexa Solirae",
+        "Garru Stravirae",
+        "Zyralis Quelluneae",
+        "Coru Hollorynys"
+      ],
+      "player_mechs": {
+        "Kess Prynn": "Archer",
+        "Talyn Rhysae": "Archer",
+        "Vexa Solirae": "Archer",
+        "Garru Stravirae": "Archer",
+        "Zyralis Quelluneae": "Archer",
+        "Coru Hollorynys": "Archer"
+      },
+      "player_callsigns": {
+        "Kess Prynn": "Null flux",
+        "Talyn Rhysae": "Breakerline",
+        "Vexa Solirae": "Sunrunner",
+        "Garru Stravirae": "Skyforge",
+        "Zyralis Quelluneae": "Pulse‑Sage",
+        "Coru Hollorynys": "Grimrift"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_15",
+      "name": "Eightfold Blades",
+      "tier": "SampaJanna",
+      "points": 3500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_16",
+      "name": "Guilded Wheel",
+      "tier": "SampaJanna",
+      "points": 3500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_17",
+      "name": "Mirrored Path",
+      "tier": "SampaJanna",
+      "points": 3500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_18",
+      "name": "Radient Paralax",
+      "tier": "SampaJanna",
+      "points": 3500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_19",
+      "name": "Violet Acsendants",
+      "tier": "SampaJanna",
+      "points": 3500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_20",
+      "name": "Halcyon Verge",
+      "tier": "SampaJanna",
+      "points": 3500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Khyro Vale",
+        "Seris Dawnfall"
+      ],
+      "player_mechs": {
+        "Khyro Vale": "Archer",
+        "Seris Dawnfall": "Archer"
+      },
+      "player_callsigns": {
+        "Khyro Vale": "",
+        "Seris Dawnfall": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_21",
+      "name": "Sovereign Line",
+      "tier": "SampaJanna",
+      "points": 3500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Ionis Crest",
+        "Veyla Marrow"
+      ],
+      "player_mechs": {
+        "Ionis Crest": "Archer",
+        "Veyla Marrow": "Archer"
+      },
+      "player_callsigns": {
+        "Ionis Crest": "",
+        "Veyla Marrow": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_22",
+      "name": "Violet Acsendants",
+      "tier": "SampaJanna",
+      "points": 3500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Astra Nyx",
+        "Luman Arctos"
+      ],
+      "player_mechs": {
+        "Astra Nyx": "Archer",
+        "Luman Arctos": "Archer"
+      },
+      "player_callsigns": {
+        "Astra Nyx": "Celestial",
+        "Luman Arctos": "Guiding Bear"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_23",
+      "name": "Apex Shatterers",
+      "tier": "Samyag-Vyāyāma",
+      "points": 3000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_24",
+      "name": "Iron Runner",
+      "tier": "Samyag-Vyāyāma",
+      "points": 3000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_25",
+      "name": "Paradox Unit",
+      "tier": "Samyag-Vyāyāma",
+      "points": 3000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_26",
+      "name": "Reciters",
+      "tier": "Samyag-Vyāyāma",
+      "points": 3000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_27",
+      "name": "Shifting Sprinters",
+      "tier": "Samyag-Vyāyāma",
+      "points": 3000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_28",
+      "name": "The Loom",
+      "tier": "Samyag-Vyāyāma",
+      "points": 3000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_29",
+      "name": "Thorns Obsidian",
+      "tier": "Samyag-Vyāyāma",
+      "points": 3000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_30",
+      "name": "Thunder Brigade",
+      "tier": "Samyag-Vyāyāma",
+      "points": 3000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_31",
+      "name": "Legal Limit",
+      "tier": "Samyag-Vyāyāma",
+      "points": 3000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Cassian Rho",
+        "Voxie Vee",
+        "Jade Halloway"
+      ],
+      "player_mechs": {
+        "Cassian Rho": "Archer",
+        "Voxie Vee": "Archer",
+        "Jade Halloway": "Archer"
+      },
+      "player_callsigns": {
+        "Cassian Rho": "Dawn",
+        "Voxie Vee": "VV",
+        "Jade Halloway": "Just Jade"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_32",
+      "name": "Violence Array",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_33",
+      "name": "Verdance",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_33",
+      "name": "Wake",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_34",
+      "name": "Golden Circuit",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_35",
+      "name": "Pale Halo",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_36",
+      "name": "Emerald Wake",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Raxen Holt",
+        "Tavaa Solenne",
+        "Jett Corvo"
+      ],
+      "player_mechs": {
+        "Raxen Holt": "Archer",
+        "Tavaa Solenne": "Archer",
+        "Jett Corvo": "Archer"
+      },
+      "player_callsigns": {
+        "Raxen Holt": "",
+        "Tavaa Solenne": "",
+        "Jett Corvo": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_37",
+      "name": "Pulse Teather",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Thalia Rhyss",
+        "Oren Pike"
+      ],
+      "player_mechs": {
+        "Thalia Rhyss": "Archer",
+        "Oren Pike": "Archer"
+      },
+      "player_callsigns": {
+        "Thalia Rhyss": "",
+        "Oren Pike": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_38",
+      "name": "Fault Point",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Dima Rell",
+        "Kess Arlow",
+        "Soren Pike"
+      ],
+      "player_mechs": {
+        "Dima Rell": "Archer",
+        "Kess Arlow": "Archer",
+        "Soren Pike": "Archer"
+      },
+      "player_callsigns": {
+        "Dima Rell": "",
+        "Kess Arlow": "",
+        "Soren Pike": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_39",
+      "name": "Night Glass",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Rion Emerlane",
+        "Vesper Bloom"
+      ],
+      "player_mechs": {
+        "Rion Emerlane": "Archer",
+        "Vesper Bloom": "Archer"
+      },
+      "player_callsigns": {
+        "Rion Emerlane": "",
+        "Vesper Bloom": "Mystery"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_40",
+      "name": "Radian Fruit",
+      "tier": "Samyag-Ájīva",
+      "points": 2500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Corin Stray",
+        "Lyssia Vale"
+      ],
+      "player_mechs": {
+        "Corin Stray": "Archer",
+        "Lyssia Vale": "Archer"
+      },
+      "player_callsigns": {
+        "Corin Stray": "",
+        "Lyssia Vale": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_41",
+      "name": "Circuitular Logic",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_42",
+      "name": "Cold Fronting",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_43",
+      "name": "EmberPack",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_44",
+      "name": "StarLynx",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_45",
+      "name": "Steel Fracture",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_46",
+      "name": "Sundown Scions",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_47",
+      "name": "Wolf Cadets",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_48",
+      "name": "Echo Husks",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Halden Pryce",
+        "Kari Vale",
+        "Serin Lune"
+      ],
+      "player_mechs": {
+        "Halden Pryce": "Archer",
+        "Kari Vale": "Archer",
+        "Serin Lune": "Archer"
+      },
+      "player_callsigns": {
+        "Halden Pryce": "",
+        "Kari Vale": "",
+        "Serin Lune": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_49",
+      "name": "Static Bloom",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Jax Loom",
+        "Peony Prism"
+      ],
+      "player_mechs": {
+        "Jax Loom": "Archer",
+        "Peony Prism": "Archer"
+      },
+      "player_callsigns": {
+        "Jax Loom": "Slip",
+        "Peony Prism": "Rhyme"
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_50",
+      "name": "Variant Feather",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Brinn Oxe",
+        "Lira Quey"
+      ],
+      "player_mechs": {
+        "Brinn Oxe": "Archer",
+        "Lira Quey": "Archer"
+      },
+      "player_callsigns": {
+        "Brinn Oxe": "",
+        "Lira Quey": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_51",
+      "name": "Wreath Orchard",
+      "tier": "Samyak-Karmānta",
+      "points": 2000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Juno Kestral",
+        "Tarek Morrow"
+      ],
+      "player_mechs": {
+        "Juno Kestral": "Archer",
+        "Tarek Morrow": "Archer"
+      },
+      "player_callsigns": {
+        "Juno Kestral": "Free flight",
+        "Tarek Morrow": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_52",
+      "name": "Abismalout",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_53",
+      "name": "Cained In Command",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_54",
+      "name": "Dawn's Dusk",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_55",
+      "name": "Hatchlings on a Wire",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_56",
+      "name": "Love Letter",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_57",
+      "name": "Noble Spacers",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_58",
+      "name": "Pathling",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_59",
+      "name": "Static Chior",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_60",
+      "name": "Veil Jumping",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_61",
+      "name": "Drift Pilgrim",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Nira Pell",
+        "Varri Sol"
+      ],
+      "player_mechs": {
+        "Nira Pell": "Archer",
+        "Varri Sol": "Archer"
+      },
+      "player_callsigns": {
+        "Nira Pell": "Canvas",
+        "Varri Sol": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_62",
+      "name": "Frostlink",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Nox Ardent",
+        "Sylvi Keene"
+      ],
+      "player_mechs": {
+        "Nox Ardent": "Archer",
+        "Sylvi Keene": "Archer"
+      },
+      "player_callsigns": {
+        "Nox Ardent": "",
+        "Sylvi Keene": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_63",
+      "name": "Guage on Fumes",
+      "tier": "Samyag-Vāc",
+      "points": 1500,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Miri Thorn",
+        "Orren Vale"
+      ],
+      "player_mechs": {
+        "Miri Thorn": "Archer",
+        "Orren Vale": "Archer"
+      },
+      "player_callsigns": {
+        "Miri Thorn": "",
+        "Orren Vale": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_64",
+      "name": "Dawn Crest",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Re Ogawa",
+        "Adilaide Palmer",
+        "Benjamin Sawyer",
+        "Tat Grigoriev",
+        "Sol Sinclair",
+        "Sage Nelson"
+      ],
+      "player_mechs": {
+        "Re Ogawa": "Archer",
+        "Adilaide Palmer": "Archer",
+        "Benjamin Sawyer": "Archer",
+        "Tat Grigoriev": "Archer",
+        "Sol Sinclair": "Archer",
+        "Sage Nelson": "Archer"
+      },
+      "player_callsigns": {
+        "Re Ogawa": "",
+        "Adilaide Palmer": "",
+        "Benjamin Sawyer": "",
+        "Tat Grigoriev": "",
+        "Sol Sinclair": "",
+        "Sage Nelson": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_65",
+      "name": "Drift Wake",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Camilla Ferrara",
+        "Corin Vale",
+        "Liam Sterling",
+        "Nina Solenne",
+        "Quinn Callahan",
+        "Viktor Romanov"
+      ],
+      "player_mechs": {
+        "Camilla Ferrara": "Archer",
+        "Corin Vale": "Archer",
+        "Liam Sterling": "Archer",
+        "Nina Solenne": "Archer",
+        "Quinn Callahan": "Archer",
+        "Viktor Romanov": "Archer"
+      },
+      "player_callsigns": {
+        "Camilla Ferrara": "",
+        "Corin Vale": "",
+        "Liam Sterling": "",
+        "Nina Solenne": "",
+        "Quinn Callahan": "",
+        "Viktor Romanov": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_66",
+      "name": "Dust Wield",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_67",
+      "name": "Erysimum",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Dr Julian K Hellyer",
+        "||++redacted++||",
+        "Melissa Kommi",
+        "Johnny The Vagabond",
+        "Buntline of burden and sacrifice",
+        "James Mason"
+      ],
+      "player_mechs": {
+        "Dr Julian K Hellyer": "Archer",
+        "||++redacted++||": "Archer",
+        "Melissa Kommi": "Archer",
+        "Johnny The Vagabond": "Archer",
+        "Buntline of burden and sacrifice": "Archer",
+        "James Mason": "Archer"
+      },
+      "player_callsigns": {
+        "Dr Julian K Hellyer": "BadBoy",
+        "||++redacted++||": "Bunny",
+        "Melissa Kommi": "Lizzy Bee",
+        "Johnny The Vagabond": "Gunslinger",
+        "Buntline of burden and sacrifice": "Gravemaker",
+        "James Mason": "Erysimum-6"
+      },
+      "npc_mechs": [
+        {
+          "name": "Tindalos",
+          "mech": ""
+        },
+        {
+          "name": "Bigtop",
+          "mech": ""
+        },
+        {
+          "name": "Pop that Pretty 30 PTP30",
+          "mech": ""
+        },
+        {
+          "name": "Highness",
+          "mech": ""
+        },
+        {
+          "name": "Smith",
+          "mech": ""
+        },
+        {
+          "name": "Wessen",
+          "mech": ""
+        },
+        {
+          "name": "Oubliette",
+          "mech": ""
+        }
+      ],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_68",
+      "name": "Latern Fall",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_69",
+      "name": "Pastel Mantra",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_70",
+      "name": "Star Hollow",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_71",
+      "name": "The Rusted Horizon",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [],
+      "player_mechs": {},
+      "player_callsigns": {},
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_72",
+      "name": "Low Born Royals",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Cassia Drehl",
+        "Garron Pike"
+      ],
+      "player_mechs": {
+        "Cassia Drehl": "Archer",
+        "Garron Pike": "Archer"
+      },
+      "player_callsigns": {
+        "Cassia Drehl": "",
+        "Garron Pike": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_73",
+      "name": "Scrap Light",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Dima Crest",
+        "Rook Pell"
+      ],
+      "player_mechs": {
+        "Dima Crest": "Archer",
+        "Rook Pell": "Archer"
+      },
+      "player_callsigns": {
+        "Dima Crest": "",
+        "Rook Pell": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_74",
+      "name": "Signal Dancer",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Kella Jarrow",
+        "Velvet Turrer"
+      ],
+      "player_mechs": {
+        "Kella Jarrow": "Archer",
+        "Velvet Turrer": "Archer"
+      },
+      "player_callsigns": {
+        "Kella Jarrow": "Gear Gremlin",
+        "Velvet Turrer": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
+    },
+    {
+      "id": "team_75",
+      "name": "Sluice Star",
+      "tier": "Samyak-Samkalpa",
+      "points": 1000,
+      "wins": 0,
+      "losses": 0,
+      "created": "2026-08-03T09:54:09.198797",
+      "players": [
+        "Jex Holloway",
+        "Ryn Kade",
+        "Lysa Calder"
+      ],
+      "player_mechs": {
+        "Jex Holloway": "Archer",
+        "Ryn Kade": "Archer",
+        "Lysa Calder": "Archer"
+      },
+      "player_callsigns": {
+        "Jex Holloway": "",
+        "Ryn Kade": "Matchsticks",
+        "Lysa Calder": ""
+      },
+      "npc_mechs": [],
+      "avatar_url": ""
     }
-  },
-  {
-    "id": "team_4",
-    "name": "dummy team 2",
-    "tier": "Samyak-Samkalpa",
-    "points": 1000,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-09T16:13:00.851121",
-    "players": [
-      "1",
-      "2",
-      "3",
-      "5",
-      "4",
-      "6"
-    ],
-    "player_mechs": {
-      "1": "Archer",
-      "2": "Archer",
-      "3": "Archer",
-      "5": "Archer",
-      "4": "Archer",
-      "6": "Archer"
-    },
-    "avatar_url": ""
-  },
-  {
-    "id": "team_5",
-    "name": "dummy team 3",
-    "tier": "Samyak-Dristi",
-    "points": 1000,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-09T16:13:07.920397",
-    "players": [
-      "1",
-      "2",
-      "3",
-      "5",
-      "4",
-      "6"
-    ],
-    "player_mechs": {
-      "1": "Archer",
-      "2": "Archer",
-      "3": "Archer",
-      "5": "Archer",
-      "4": "Archer",
-      "6": "Archer"
-    },
-    "avatar_url": ""
-  },
-  {
-    "id": "team_6",
-    "name": "dummy team 4",
-    "tier": "Samyak-Dristi",
-    "points": 1000,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-09T16:13:11.856744",
-    "players": [
-      "1",
-      "2",
-      "3",
-      "5",
-      "4",
-      "6"
-    ],
-    "player_mechs": {
-      "1": "Archer",
-      "2": "Archer",
-      "3": "Archer",
-      "5": "Archer",
-      "4": "Archer",
-      "6": "Archer"
-    },
-    "avatar_url": ""
-  },
-  {
-    "id": "team_7",
-    "name": "Pale Drifters",
-    "tier": "Samyak-Samkalpa",
-    "points": 0,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-09T16:17:05.833635",
-    "players": [
-      "Marik Remaire",
-      "Seri Ashley",
-      "Meara Tryna",
-      "John Lancer",
-      "Tyra McArla",
-      "Claud Pithoys"
-    ],
-    "player_mechs": {
-      "Marik Remaire": "Archer",
-      "Seri Ashley": "Archer",
-      "Meara Tryna": "Archer",
-      "John Lancer": "Archer",
-      "Tyra McArla": "Archer",
-      "Claud Pithoys": "Archer"
-    },
-    "avatar_url": "",
-    "player_callsigns": {
-      "Marik Remaire": "Revolver",
-      "Seri Ashley": "GlitzMek",
-      "Meara Tryna": "DreadMuse",
-      "John Lancer": "PingLord",
-      "Tyra McArla": "FrenzyPop",
-      "Claud Pithoys": "Heretic"
-    },
-    "npc_mechs": []
-  },
-  {
-    "id": "team_8",
-    "name": "Blue Ember Union",
-    "tier": "Samyak-Dristi",
-    "points": 0,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-10T07:49:42.948705",
-    "players": [
-      "Kade Marron",
-      "Rhea Solari",
-      "Riven Verren",
-      "Marlow Pell",
-      "Tovin Arclen",
-      "Sable Lunehart"
-    ],
-    "player_mechs": {
-      "Kade Marron": "Archer",
-      "Rhea Solari": "Archer",
-      "Riven Verren": "Archer",
-      "Marlow Pell": "Archer",
-      "Tovin Arclen": "Archer",
-      "Sable Lunehart": "Archer"
-    },
-    "player_callsigns": {
-      "Kade Marron": "Swipe Right",
-      "Rhea Solari": "Balance Due",
-      "Riven Verren": "Tap to Pay",
-      "Marlow Pell": "CreditLimit",
-      "Tovin Arclen": "Late Fee",
-      "Sable Lunehart": "CashBash"
-    },
-    "avatar_url": ""
-  },
-  {
-    "id": "team_9",
-    "name": "Gutterlight Saints",
-    "tier": "Samyak-Dristi",
-    "points": 0,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-10T07:51:40.812592",
-    "players": [
-      "Lio Varrin",
-      "Tessa Marn",
-      "Orin Pellos",
-      "Vexa Rhyll",
-      "Joren Halvek",
-      "Nia Solenne"
-    ],
-    "player_mechs": {
-      "Lio Varrin": "Archer",
-      "Tessa Marn": "Archer",
-      "Orin Pellos": "Archer",
-      "Vexa Rhyll": "Archer",
-      "Joren Halvek": "Archer",
-      "Nia Solenne": "Archer"
-    },
-    "player_callsigns": {
-      "Lio Varrin": "LuckyBreak",
-      "Tessa Marn": "Short Stack",
-      "Orin Pellos": "ColdDice",
-      "Vexa Rhyll": "Double Down",
-      "Joren Halvek": "BadBeat",
-      "Nia Solenne": "Jackpot"
-    },
-    "avatar_url": ""
-  },
-  {
-    "id": "team_10",
-    "name": "Iron Orchid",
-    "tier": "Samyak-Dristi",
-    "points": 0,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-10T08:39:57.480754",
-    "players": [
-      "Colt Arden",
-      "Risa Vant",
-      "Dane Korrin",
-      "Veyra Esten",
-      "Kerr Tellen",
-      "Orren Vale"
-    ],
-    "player_mechs": {
-      "Colt Arden": "Archer",
-      "Risa Vant": "Archer",
-      "Dane Korrin": "Archer",
-      "Veyra Esten": "Archer",
-      "Kerr Tellen": "Archer",
-      "Orren Vale": "Archer"
-    },
-    "player_callsigns": {
-      "Colt Arden": "Thresh",
-      "Risa Vant": "Harrow",
-      "Dane Korrin": "Ironseed",
-      "Veyra Esten": "ColdFurrow",
-      "Kerr Tellen": "Grainlock",
-      "Orren Vale": "Backscatter"
-    },
-    "npc_mechs": [],
-    "avatar_url": ""
-  },
-  {
-    "id": "team_11",
-    "name": "Neon Wasp Syndicate",
-    "tier": "Samyak-Dristi",
-    "points": 0,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-10T08:41:28.720572",
-    "players": [
-      "Vex Halden",
-      "Kira Mino",
-      "Dante Serin",
-      "Nova Yessir",
-      "Rho Talvek",
-      "Serae Dray"
-    ],
-    "player_mechs": {
-      "Vex Halden": "Archer",
-      "Kira Mino": "Archer",
-      "Dante Serin": "Archer",
-      "Nova Yessir": "Archer",
-      "Rho Talvek": "Archer",
-      "Serae Dray": "Archer"
-    },
-    "player_callsigns": {
-      "Vex Halden": "Overclock",
-      "Kira Mino": "Lag Switch",
-      "Dante Serin": "TiltLock",
-      "Nova Yessir": "ClipFarm",
-      "Rho Talvek": "Keybind",
-      "Serae Dray": "AFKAngel"
-    },
-    "npc_mechs": [],
-    "avatar_url": ""
-  },
-  {
-    "id": "team_12",
-    "name": "Pattern Breakers",
-    "tier": "Samyak-Dristi",
-    "points": 0,
-    "wins": 0,
-    "losses": 0,
-    "created": "2026-07-10T08:42:46.905303",
-    "players": [
-      "Venn Roul",
-      "Irie solenne",
-      "Vale Varrin",
-      "Lune Kess",
-      "Bran Dreyl",
-      "Nyra Pell"
-    ],
-    "player_mechs": {
-      "Venn Roul": "Archer",
-      "Irie solenne": "Archer",
-      "Vale Varrin": "Archer",
-      "Lune Kess": "Archer",
-      "Bran Dreyl": "Archer",
-      "Nyra Pell": "Archer"
-    },
-    "player_callsigns": {
-      "Venn Roul": "Crossfade",
-      "Irie solenne": "Threadkill",
-      "Vale Varrin": "Backstitch",
-      "Lune Kess": "DropNeedle",
-      "Bran Dreyl": "Hemlock",
-      "Nyra Pell": "Ghostweft"
-    },
-    "npc_mechs": [],
-    "avatar_url": ""
-  }
+
 ]

@@ -1239,7 +1239,33 @@ HYPE_SALT_MESSAGES = [
     "This clash was a masterpiece of mayhem and mechanics!",
     "The arena is still buzzing from that last showdown!",
     "Salt is flowing, but so is the glory — what a match!",
-    "The fight was fierce; may the best pilots rise!"
+    "The fight was fierce; may the best pilots rise!",
+    "GGs were exchanged; rivalries were upgraded.",
+    "Somebody just made the highlight reel—and somebody's planning the rematch.",
+    "Victory tastes sweet; the rematch is going to taste even sweeter.",
+    "That scoreboard is going to need a moment to recover.",
+    "Brains, bold plays, and a little bit of chaos—what a match!",
+    "The clutch plays were real; the salt is merely a seasoning.",
+    "That loss stings now; the comeback story starts here.",
+    "Reset, regroup, and bring the thunder next round.",
+    "No shame in a close loss—only fuel for the next fight.",
+    "Today's rivals are tomorrow's rematch legends.",
+    "Steel met steel, and the arena got a show.",
+    "Someone bring a mop—the salt spilled all over the scoreboard.",
+    "One team celebrates; the other is loading the rematch.",
+    "No surrender, just a tactical pause before the comeback.",
+    "That was less a match and more a fireworks display.",
+    "Keep the salt shaker handy—the rivalry is just getting started.",
+    "New season, fresh ladder, same unstoppable energy.",
+    "Every rank is up for grabs; make every move count.",
+    "The next chapter starts now—bring your best and bring your nerve.",
+    "The arena is calling, and the leaderboard is listening.",
+    "Fresh season, fresh rivalries, and plenty of room for an upset.",
+    "May your tactics be sharp and your rematches even sharper.",
+    "Climb together, compete fiercely, and give the crowd a show.",
+    "The season's not over until the last mech rolls out.",
+    "Promotion dreams are alive; time to prove them on the battlefield.",
+    "A new season means a clean slate and a whole new set of grudges."
 ]
 
 CONGRATULATION_MESSAGES = [
@@ -1257,12 +1283,15 @@ def format_end_of_season_pairings_message(pairings):
         return "No end-of-season promotion pairings are available."
 
     pair_lines = [f"{p['lower_team']} ({p['lower_rank']}) vs {p['higher_team']} ({p['higher_rank']})" for p in pairings]
+    hype_message = random.choice(HYPE_SALT_MESSAGES)
     return (
         "**Miyo End of Season Pairings**\n"
         "It's time for the finals, let's see who will climb towards Deva, and who falls towards Naraka. "
         "Top three teams from each rank battle it out with the bottom three of the next to see who deserves to move up and down.\n\n"
         "**Pairings:**\n"
         + "\n".join(pair_lines)
+        + "\n\n"
+        + hype_message
     )
 
 
@@ -1273,6 +1302,7 @@ def format_season_final_results_message(summary):
         result_text = "\n".join([f"- {line}" for line in summary])
 
     congratulations = random.sample(CONGRATULATION_MESSAGES, min(3, len(CONGRATULATION_MESSAGES)))
+    hype_salt_messages = random.sample(HYPE_SALT_MESSAGES, min(2, len(HYPE_SALT_MESSAGES)))
     return (
         "**Miyo Season Results**\n"
         "That's it for this season, we've had excitement, death, tears and oodles of promotion, love you all, me our fights and Sutra will see you in a month.\n\n"
@@ -1280,14 +1310,51 @@ def format_season_final_results_message(summary):
         + result_text
         + "\n\n"
         + "\n".join(congratulations)
+        + "\n\n"
+        + "\n".join(hype_salt_messages)
     )
 
 
-def send_hype_or_salt_messages(webhook_url, avatar_url=None, count=3):
+def send_hype_or_salt_messages(webhook_url, match, avatar_url=None):
     if not webhook_url:
         return False, "No webhook configured for hype messages."
 
-    chosen = random.sample(HYPE_SALT_MESSAGES, min(count, len(HYPE_SALT_MESSAGES)))
+    winner = match["winner"]
+    winning_teams = [winner]
+    losing_teams = [team for team in match["participants"] if team != winner]
+    pilot_rosters = {
+        roster["team"]: [
+            f"{pilot['name']} ({pilot['callsign']})" if pilot.get("callsign") else pilot["name"]
+            for pilot in roster.get("pilots", [])
+            if pilot.get("name")
+        ]
+        for roster in match.get("participant_pilots", [])
+    }
+    winning_pilots = [pilot for team in winning_teams for pilot in pilot_rosters.get(team, [])]
+    losing_pilots = [pilot for team in losing_teams for pilot in pilot_rosters.get(team, [])]
+
+    winner_lineup = f" with {', '.join(winning_pilots)}" if winning_pilots else ""
+    loser_lineup = f" with {', '.join(losing_pilots)}" if losing_pilots else ""
+    personalized_messages = [
+        random.choice([
+            f"Raise the banners for {', '.join(winning_teams)}{winner_lineup}—the winners brought the heat!",
+            f"{', '.join(winning_teams)}{winner_lineup} take the glory this round. Somebody's tactics were on point!",
+            f"Give it up for {', '.join(winning_teams)}{winner_lineup}! The scoreboard has spoken!",
+            f"Oh, of course {', '.join(winning_teams)}{winner_lineup} had to show off again. We get it, you won!",
+            f"Someone check {', '.join(winning_teams)}{winner_lineup} for a horseshoe—how are they this lucky?"
+        ]),
+        random.choice([
+            f"Feel for {', '.join(losing_teams)}{loser_lineup}—a rough round, but the comeback starts now.",
+            f"{', '.join(losing_teams)}{loser_lineup}, don't let the salt win. There's always a rematch!",
+            f"Sympathy for {', '.join(losing_teams)}{loser_lineup}; even legends have tough rounds.",
+            f"{', '.join(losing_teams)}{loser_lineup}, that strategy needs a post-match debrief!",
+            f"Somebody tell {', '.join(losing_teams)}{loser_lineup} the arena is the other way!"
+        ])
+    ]
+    total_count = random.randint(5, 8)
+    chosen = personalized_messages + random.sample(HYPE_SALT_MESSAGES, total_count - len(personalized_messages))
+    random.shuffle(chosen)
+
     for msg in chosen:
         success, error = post_to_discord(
             webhook_url,
@@ -2136,7 +2203,7 @@ with tab5:
         match_results_webhook = st.text_input(
             "Match Results Channel Webhook URL",
             value=st.session_state.get("match_results_webhook", DEFAULT_MATCH_RESULTS_WEBHOOK),
-            placeholder="Webhook created in Discord #match-results channel",
+            placeholder="https://discord.com/api/webhooks/1551619307723821139/UqKxxQvuPOtuYY9saT5PLatqoFg4jNCsZM98gIoIzKZ5H6CX0gOGOWClurNmLKJeIaKB",
             key="match_results_webhook"
         )
         match_results_avatar = st.text_input(
@@ -2156,7 +2223,8 @@ with tab5:
                 st.success("New season started: wins/losses reset, ranks preserved.")
                 new_season_message = (
                     "Hey there fighters, Watchers, Fan, Investors and support teams. "
-                    "The new Mara season is live, support your favorate teams and lets all cheer them to victory"
+                    "The new Mara season is live, support your favorate teams and lets all cheer them to victory.\n\n"
+                    + random.choice(HYPE_SALT_MESSAGES)
                 )
                 webhook_to_use = st.session_state.get("match_results_webhook") or DEFAULT_MATCH_RESULTS_WEBHOOK
                 if webhook_to_use:
@@ -2231,8 +2299,8 @@ with tab5:
 
                         hype_success, hype_msg = send_hype_or_salt_messages(
                             webhook_to_use,
-                            avatar_url=match_results_avatar,
-                            count=3
+                            match_record,
+                            avatar_url=match_results_avatar
                         )
                         if hype_success:
                             st.success(hype_msg)
