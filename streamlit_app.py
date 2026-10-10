@@ -1583,7 +1583,7 @@ def get_team_matches(team_name):
 
 def build_match_history_df(matches):
     if not matches:
-        return pd.DataFrame([])
+        return pd.DataFrame(columns=["Date", "Winner", "Map", "Mission", "Participants", "Win Points", "Loss Points", "Notes"])
     df = pd.DataFrame(matches)
     df["Date"] = pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d")
     df["Participants"] = df["participants"].apply(lambda x: ", ".join(x) if isinstance(x, list) else str(x))
