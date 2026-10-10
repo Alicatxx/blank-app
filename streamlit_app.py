@@ -1656,6 +1656,7 @@ def build_match_history_df(matches):
         return pd.DataFrame(columns=["Date", "Winner", "Map", "Mission", "Participants", "Win Points", "Loss Points", "Notes"])
     df = pd.DataFrame(matches)
     df["Date"] = pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d")
+    df["Winner"] = df["winner"]
     df["Participants"] = df["participants"].apply(lambda x: ", ".join(x) if isinstance(x, list) else str(x))
     # Support stored map name on match records
     if "map" in df.columns:
