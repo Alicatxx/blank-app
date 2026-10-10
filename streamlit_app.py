@@ -1370,6 +1370,74 @@ def send_hype_or_salt_messages(webhook_url, match, avatar_url=None):
     return True, f"Sent {len(chosen)} hype/salt messages as chat."
 
 
+def send_season_hype_or_salt_messages(webhook_url, pairings, winners, teams):
+    if not webhook_url:
+        return False, "No webhook configured for season hype messages."
+
+    team_by_name = {team.get("name"): team for team in teams}
+    outcomes = []
+    for pairing in pairings:
+        winner = winners.get(pairing["pair_id"])
+        participants = [pairing["lower_team"], pairing["higher_team"]]
+        if winner not in participants:
+            continue
+        outcomes.append({"winner": winner, "loser": next(team for team in participants if team != winner)})
+
+    if not outcomes:
+        return False, "No completed promotion results to personalize."
+
+    winner_messages = [
+        "Raise the banners for {team}; the season finale belongs to them!",
+        "{team} got the result they wanted. Go ahead, take that victory lap.",
+        "Somebody check {team}; that win has gone straight to their heads.",
+        "{team} closed out the season in style. The rest of the league can file complaints tomorrow.",
+        "The final word this season belongs to {team}. They will definitely remind us next season.",
+        "Cue the celebrations for {team}; they came through when it counted.",
+    ]
+    loser_messages = [
+        "That ending stings, {team}; complain tonight and plot the comeback tomorrow.",
+        "{team}, the rematch calendar is open. Bring that grudge into next season.",
+        "Save some salt for {team}; this could still become a legendary comeback story.",
+        "Rough finale for {team}. Reset, regroup, and make next season answer for it.",
+        "{team} can file an official complaint with the league office first thing next season.",
+        "No one likes ending the season this way, {team}; turn it into fuel for the next climb.",
+    ]
+
+    def choose_team_or_pilot(team_name):
+        team = team_by_name.get(team_name, {})
+        players = team.get("players", [])
+        if players and random.choice([True, False]):
+            pilot = random.choice(players)
+            callsign = team.get("player_callsigns", {}).get(pilot, "")
+            return f"{pilot} ({callsign})" if callsign else pilot
+        return team_name
+
+    featured_outcomes = random.sample(outcomes, min(2, len(outcomes)))
+    personalized_messages = []
+    for outcome in featured_outcomes:
+        personalized_messages.append(random.choice(winner_messages).format(
+            team=choose_team_or_pilot(outcome["winner"])
+        ))
+        personalized_messages.append(random.choice(loser_messages).format(
+            team=choose_team_or_pilot(outcome["loser"])
+        ))
+
+    total_count = random.randint(max(5, len(personalized_messages)), max(8, len(personalized_messages)))
+    chosen = personalized_messages + random.sample(HYPE_SALT_MESSAGES, total_count - len(personalized_messages))
+    random.shuffle(chosen)
+
+    for message in chosen:
+        success, error = post_to_discord(
+            webhook_url,
+            message,
+            username="chat",
+            avatar_url=DEFAULT_CHAT_AVATAR
+        )
+        if not success:
+            return False, f"Season hype/salt send failed: {error}"
+    return True, f"Sent {len(chosen)} season hype/salt messages as chat."
+
+
 def get_avatar_url(name):
     custom_url = get_custom_avatar_url(name)
     if custom_url:
@@ -2329,7 +2397,8 @@ with tab5:
             promotion_form.markdown("---")
         apply_results = promotion_form.form_submit_button("Apply End of Season Results")
         if apply_results:
-            summary = apply_end_of_season_results(st.session_state.promotion_pairings, winner_choices)
+            season_pairings = list(st.session_state.promotion_pairings)
+            summary = apply_end_of_season_results(season_pairings, winner_choices)
             if summary:
                 for item in summary:
                     st.success(item)
@@ -2344,6 +2413,17 @@ with tab5:
                     username="Miyo",
                     avatar_url=st.session_state.get("match_results_avatar")
                 )
+                if summary:
+                    hype_success, hype_msg = send_season_hype_or_salt_messages(
+                        webhook_to_use,
+                        season_pairings,
+                        winner_choices,
+                        st.session_state.teams
+                    )
+                    if hype_success:
+                        st.success(hype_msg)
+                    else:
+                        st.warning(hype_msg)
             st.session_state.promotion_pairings = []
             st.rerun()
 
