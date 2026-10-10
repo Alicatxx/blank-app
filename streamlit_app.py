@@ -1320,7 +1320,6 @@ def send_hype_or_salt_messages(webhook_url, match, avatar_url=None):
         return False, "No webhook configured for hype messages."
 
     winner = match["winner"]
-    winning_teams = [winner]
     losing_teams = [team for team in match["participants"] if team != winner]
     pilot_rosters = {
         roster["team"]: [
@@ -1330,25 +1329,29 @@ def send_hype_or_salt_messages(webhook_url, match, avatar_url=None):
         ]
         for roster in match.get("participant_pilots", [])
     }
-    winning_pilots = [pilot for team in winning_teams for pilot in pilot_rosters.get(team, [])]
-    losing_pilots = [pilot for team in losing_teams for pilot in pilot_rosters.get(team, [])]
 
-    winner_lineup = f" with {', '.join(winning_pilots)}" if winning_pilots else ""
-    loser_lineup = f" with {', '.join(losing_pilots)}" if losing_pilots else ""
+    def choose_team_or_pilot(team_name):
+        pilots = pilot_rosters.get(team_name, [])
+        if pilots and random.choice([True, False]):
+            return random.choice(pilots)
+        return team_name
+
+    winner_reference = choose_team_or_pilot(winner)
+    loser_reference = choose_team_or_pilot(random.choice(losing_teams))
     personalized_messages = [
         random.choice([
-            f"Raise the banners for {', '.join(winning_teams)}{winner_lineup}—the winners brought the heat!",
-            f"{', '.join(winning_teams)}{winner_lineup} take the glory this round. Somebody's tactics were on point!",
-            f"Give it up for {', '.join(winning_teams)}{winner_lineup}! The scoreboard has spoken!",
-            f"Oh, of course {', '.join(winning_teams)}{winner_lineup} had to show off again. We get it, you won!",
-            f"Someone check {', '.join(winning_teams)}{winner_lineup} for a horseshoe—how are they this lucky?"
+            f"Raise the banners for {winner_reference}—the victor brought the heat!",
+            f"{winner_reference} takes the glory this round. Somebody's tactics were on point!",
+            f"Give it up for {winner_reference}! The scoreboard has spoken!",
+            f"Oh, of course {winner_reference} had to show off again. We get it, you won!",
+            f"Someone check {winner_reference} for a horseshoe—how are they this lucky?"
         ]),
         random.choice([
-            f"Feel for {', '.join(losing_teams)}{loser_lineup}—a rough round, but the comeback starts now.",
-            f"{', '.join(losing_teams)}{loser_lineup}, don't let the salt win. There's always a rematch!",
-            f"Sympathy for {', '.join(losing_teams)}{loser_lineup}; even legends have tough rounds.",
-            f"{', '.join(losing_teams)}{loser_lineup}, that strategy needs a post-match debrief!",
-            f"Somebody tell {', '.join(losing_teams)}{loser_lineup} the arena is the other way!"
+            f"Feel for {loser_reference}—a rough round, but the comeback starts now.",
+            f"{loser_reference}, don't let the salt win. There's always a rematch!",
+            f"Sympathy for {loser_reference}; tough rounds happen to everyone.",
+            f"{loser_reference}, that strategy needs a post-match debrief!",
+            f"Somebody tell {loser_reference} the arena is the other way!"
         ])
     ]
     total_count = random.randint(5, 8)
