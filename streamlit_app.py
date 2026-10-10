@@ -1099,6 +1099,18 @@ def format_match_result_message(match):
             f"- {team['name']}: {team['result']} ({sign}{point_change} pts), now {team['points']} pts, tier {team['tier']}"
         )
 
+    pilot_roster_lines = []
+    for roster in match.get("participant_pilots", []):
+        pilots = []
+        for pilot in roster.get("pilots", []):
+            name = pilot.get("name", "")
+            callsign = pilot.get("callsign", "")
+            if name:
+                pilots.append(f"{name} ({callsign})" if callsign else name)
+        if pilots:
+            pilot_roster_lines.append(f"- {roster['team']}: {', '.join(pilots)}")
+    pilot_roster = "\n".join(pilot_roster_lines) or "No pilot details recorded."
+
     notes = f"\nNotes: {match['notes']}" if match.get("notes") else ""
     return (
         f"**Miyo Match Result**\n"
@@ -1106,6 +1118,7 @@ def format_match_result_message(match):
         f"Map: {match.get('map', 'Unknown')}\n"
         f"Mission: {match.get('mission', 'Unknown')}\n"
         f"Participants: {participants}\n"
+        f"Pilots:\n{pilot_roster}\n"
         f"""Details:\n{ '\n'.join(detail_lines) }"""
         f"{notes}"
     )
@@ -1200,7 +1213,17 @@ def post_to_discord(webhook_url, content, username="Miyo", avatar_url=None):
 
 
 DEFAULT_AVATAR_URL = "https://imgup.uk/i/5Q1amHsg.png"
-DEFAULT_MATCH_RESULTS_WEBHOOK = "https://discord.com/api/webhooks/1524804436009160969/8Us7Y-y8CF83FrfWTsaG7810j3SWdVU88nLoYaRSGPoyoYuxkWa_hUMa_TWdoFSqyJYt"
+
+
+def get_default_match_results_webhook():
+    fallback = os.environ.get("MATCH_RESULTS_WEBHOOK", "")
+    try:
+        return st.secrets.get("MATCH_RESULTS_WEBHOOK", fallback)
+    except FileNotFoundError:
+        return fallback
+
+
+DEFAULT_MATCH_RESULTS_WEBHOOK = get_default_match_results_webhook()
 
 HYPE_SALT_MESSAGES = [
     "What a fight! Next season is heating up!",
@@ -1497,6 +1520,7 @@ def apply_match_result(participant_names, winner_name, win_points=20, loss_point
 
     now = datetime.now()
     updated_teams = []
+    participant_pilots = []
     for team_name in participant_names:
         team = get_team_by_name(team_name)
         if not team:
@@ -1517,6 +1541,13 @@ def apply_match_result(participant_names, winner_name, win_points=20, loss_point
             "tier": team["tier"],
             "result": result
         })
+        participant_pilots.append({
+            "team": team["name"],
+            "pilots": [
+                {"name": pilot, "callsign": get_player_call_sign(team, pilot)}
+                for pilot in team.get("players", [])
+            ]
+        })
 
     save_teams_to_disk(st.session_state.teams)
     match_record = {
@@ -1529,7 +1560,8 @@ def apply_match_result(participant_names, winner_name, win_points=20, loss_point
         "win_points": int(win_points),
         "loss_points": int(loss_points),
         "notes": notes,
-        "updated_teams": updated_teams
+        "updated_teams": updated_teams,
+        "participant_pilots": participant_pilots
     }
     st.session_state.matches.append(match_record)
     save_matches_to_disk(st.session_state.matches)
@@ -2112,7 +2144,7 @@ with tab5:
             value=st.session_state.get("match_results_avatar", ""),
             key="match_results_avatar"
         )
-        st.write("Miyo will post to the default match-results webhook unless you override it here.")
+        st.write("Set MATCH_RESULTS_WEBHOOK in Streamlit secrets or enter a webhook here to post automatically.")
 
     st.markdown("---")
     st.subheader("Season Controls")
